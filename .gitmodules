@@ -4,3 +4,6 @@
 [submodule "sparse_opcount"]
 	path = sparse_opcount
 	url = git@github.com:HPCRL/sparse_opcount.git
+[submodule "hopscotch-map"]
+	path = hopscotch-map
+	url = git@github.com:Tessil/hopscotch-map.git

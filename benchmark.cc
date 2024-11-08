@@ -83,16 +83,16 @@ double hmap_teov_pao_contraction(Tensor<double> teov) {
   //result.write("./hmap_teovteov.tns");
 
   t1 = std::chrono::high_resolution_clock::now();
-  Tensor<double> result_inout = teov.inner_outer_multiply<double>(
+  CompactTensor<double> result_inout = teov.inner_outer_multiply<double>(
       teov, CoOrdinate({2}), CoOrdinate({}), CoOrdinate({2}), CoOrdinate({}));
   t2 = std::chrono::high_resolution_clock::now();
   time_span =
       std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
   std::cout << "Teov-Pao contraction time using inner outer: "
             << time_span.count() << " seconds." << std::endl;
-  result_inout._infer_dimensionality();
-  result_inout._infer_shape();
-  result_inout.write("./hmapinout_teovteov.tns");
+  //result_inout._infer_dimensionality();
+  //result_inout._infer_shape();
+  //result_inout.write("./hmapinout_teovteov.tns");
 
   return time_span.count();
 }
@@ -103,8 +103,8 @@ double vast_3d_contraction(Tensor<double> vast3d) {
   vast3d._infer_shape();
   std::chrono::high_resolution_clock::time_point t1 =
       std::chrono::high_resolution_clock::now();
-  Tensor<double> result = vast3d.inner_outer_multiply<double>(
-      vast3d, CoOrdinate({0}), CoOrdinate({}), CoOrdinate({0}), CoOrdinate({}));
+  CompactTensor<double> result = vast3d.inner_outer_multiply<double>(
+      vast3d, CoOrdinate({2}), CoOrdinate({}), CoOrdinate({2}), CoOrdinate({}));
   std::chrono::high_resolution_clock::time_point t2 =
       std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> time_span =
@@ -134,7 +134,7 @@ int main() {
       Tensor<double>("./benzene_data/TEov.tns", false); // Tensor<double>("./benzene_data/TEov.tns", false);
   hmap_teov_pao_contraction(hmap_teov);
   //Tensor<double> hmap_vast3d =
-  //    Tensor<double>("/media/saurabh/New Volume1/ubuntu_downloads/frostt/vast-2015-mc1-3d.tns",
+  //    Tensor<double>("/media/saurabh/New Volume1/ubuntu_downloads/frostt/nips.tns",
   //                   true); // Tensor<double>("./benzene_data/TEov.tns", false);
   //vast_3d_contraction(hmap_vast3d);
 }

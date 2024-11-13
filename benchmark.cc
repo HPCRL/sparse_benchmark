@@ -97,19 +97,81 @@ double hmap_teov_pao_contraction(Tensor<double> teov) {
   return time_span.count();
 }
 
-double vast_3d_contraction(Tensor<double> vast3d) {
-  // res(i, j, k, l) = vast3d(c, i, j) * vast3d(c, k, l)
-  vast3d._infer_dimensionality();
-  vast3d._infer_shape();
+double teoo_k_contraction(Tensor<double> teoo) {
+  // res(i, j, m, n) = teoo(i, j, k) * teoo(m, n, k)
+  teoo._infer_dimensionality();
+  teoo._infer_shape();
   std::chrono::high_resolution_clock::time_point t1 =
       std::chrono::high_resolution_clock::now();
-  CompactTensor<double> result = vast3d.inner_outer_multiply<double>(
-      vast3d, CoOrdinate({2}), CoOrdinate({}), CoOrdinate({2}), CoOrdinate({}));
   std::chrono::high_resolution_clock::time_point t2 =
       std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> time_span =
       std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  std::cout << "Vast 3D contraction time: " << time_span.count() << " seconds."
+
+  t1 = std::chrono::high_resolution_clock::now();
+  CompactTensor<double> result_inout = teoo.inner_outer_multiply<double>(
+      teoo, CoOrdinate({2}), CoOrdinate({}), CoOrdinate({2}), CoOrdinate({}));
+  t2 = std::chrono::high_resolution_clock::now();
+  time_span =
+      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  std::cout << "Teoo-K contraction time using inner outer: "
+            << time_span.count() << " seconds." << std::endl;
+}
+
+double teoo_teov_k_contraction(Tensor<double> teoo, Tensor<double> teov) {
+  // res(i, j, m, e_mu) = teoo(i, j, k) * teov(m, e_mu, k)
+  teoo._infer_dimensionality();
+  teoo._infer_shape();
+  teov._infer_dimensionality();
+  teov._infer_shape();
+  std::chrono::high_resolution_clock::time_point t1 =
+      std::chrono::high_resolution_clock::now();
+  std::chrono::high_resolution_clock::time_point t2 =
+      std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> time_span =
+      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+
+  t1 = std::chrono::high_resolution_clock::now();
+  CompactTensor<double> result_inout = teoo.inner_outer_multiply<double>(
+      teov, CoOrdinate({2}), CoOrdinate({}), CoOrdinate({2}), CoOrdinate({}));
+  t2 = std::chrono::high_resolution_clock::now();
+  time_span =
+      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  std::cout << "TEoo-TEov-K contraction time using inner outer: "
+            << time_span.count() << " seconds." << std::endl;
+  return time_span.count();
+}
+
+double two_mode_contraction(Tensor<double> frostt_tensor) {
+  // res(i, j, k, l) = vast3d(c, i, j) * vast3d(c, k, l)
+  frostt_tensor._infer_dimensionality();
+  frostt_tensor._infer_shape();
+  std::chrono::high_resolution_clock::time_point t1 =
+      std::chrono::high_resolution_clock::now();
+  CompactTensor<double> result = frostt_tensor.inner_outer_multiply<double>(
+      frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({}), CoOrdinate({0, 1}), CoOrdinate({}));
+  std::chrono::high_resolution_clock::time_point t2 =
+      std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> time_span =
+      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  std::cout << "Two mode contraction time: " << time_span.count() << " seconds."
+            << std::endl;
+  return time_span.count();
+}
+
+double single_mode_contraction(Tensor<double> frostt_tensor) {
+  // res(i, j, k, l) = vast3d(c, i, j) * vast3d(c, k, l)
+  frostt_tensor._infer_dimensionality();
+  frostt_tensor._infer_shape();
+  std::chrono::high_resolution_clock::time_point t1 =
+      std::chrono::high_resolution_clock::now();
+  CompactTensor<double> result = frostt_tensor.inner_outer_multiply<double>(
+      frostt_tensor, CoOrdinate({0}), CoOrdinate({}), CoOrdinate({0}), CoOrdinate({}));
+  std::chrono::high_resolution_clock::time_point t2 =
+      std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> time_span =
+      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  std::cout << "Single mode contraction time: " << time_span.count() << " seconds."
             << std::endl;
   return time_span.count();
 }
@@ -130,11 +192,16 @@ int main() {
   //  std::cout<<"int is "<<sizeof(int)<<", short is "<<sizeof(short)<<", long
   //  is
   //  "<<sizeof(long)<<", long long is "<<sizeof(long long)<<std::endl;
-  Tensor<double> hmap_teov =
-      Tensor<double>("./benzene_data/TEov.tns", false); // Tensor<double>("./benzene_data/TEov.tns", false);
-  hmap_teov_pao_contraction(hmap_teov);
-  //Tensor<double> hmap_vast3d =
-  //    Tensor<double>("/media/saurabh/New Volume1/ubuntu_downloads/frostt/nips.tns",
-  //                   true); // Tensor<double>("./benzene_data/TEov.tns", false);
-  //vast_3d_contraction(hmap_vast3d);
+  //Tensor<double> teoo =
+  //    Tensor<double>("./benzene_data/TEoo.tns", true); // Tensor<double>("./benzene_data/TEov.tns", false);
+  //Tensor<double> teov =
+  //    Tensor<double>("./benzene_data/TEov.tns", true); // Tensor<double>("./benzene_data/TEov.tns", false);
+  //teoo_teov_k_contraction(teoo, teov);
+  //teoo_k_contraction(teoo);
+  //hmap_teov_pao_contraction(teov);
+  Tensor<double> nips =
+      Tensor<double>("/media/saurabh/New Volume1/ubuntu_downloads/frostt/chicago-crime-comm.tns",
+                     true); // Tensor<double>("./benzene_data/TEov.tns", false);
+  //single_mode_contraction(nips);
+  two_mode_contraction(nips);
 }

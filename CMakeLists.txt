@@ -17,13 +17,13 @@ set(CMAKE_CXX_STANDARD 20)
 
 # Process Abseil's CMake build system
 add_subdirectory(./sparse_opcount/abseil-cpp)
-include_directories(~/hopscotch-map /usr/include/c++/11 /usr/include/x86_64-linux-gnu/c++/11)
+include_directories(~/hopscotch-map ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount /usr/include/c++/11 /usr/include/x86_64-linux-gnu/c++/11)
 
 add_executable(benchmark benchmark.cc)
 #add_executable(tests tests.cc)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -mavx2 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -g")
 
-target_include_directories(benchmark PUBLIC ~/hopscotch-map/include)
+target_include_directories(benchmark PUBLIC ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount)
 
 # Declare dependency on the absl::strings library
 target_link_libraries(benchmark absl::container_memory absl::hash_container_defaults absl::raw_hash_set absl::algorithm_container absl::core_headers absl::memory absl::type_traits)

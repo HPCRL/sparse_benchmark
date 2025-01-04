@@ -13,7 +13,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 # Abseil requires C++14
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
 
 # Process Abseil's CMake build system
 add_subdirectory(./sparse_opcount/abseil-cpp)
@@ -22,7 +22,7 @@ include_directories(~/hopscotch-map ~/taskflow ~/taskflow/taskflow/ ${CMAKE_CURR
 
 add_executable(benchmark benchmark.cc)
 #add_executable(tests tests.cc)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -g -fopenmp")
 
 target_include_directories(benchmark PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount)
 

@@ -22,9 +22,9 @@ include_directories(~/hopscotch-map ~/taskflow ~/taskflow/taskflow/ ${CMAKE_CURR
 
 add_executable(benchmark benchmark.cc)
 #add_executable(tests tests.cc)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -g -fopenmp")
 
-target_include_directories(benchmark PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount)
+target_include_directories(benchmark PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount/emhash)
 
 # Declare dependency on the absl::strings library
 target_link_libraries(benchmark unordered_dense::unordered_dense absl::container_memory absl::hash_container_defaults absl::raw_hash_set absl::algorithm_container absl::core_headers absl::memory absl::type_traits)

@@ -188,7 +188,7 @@ void run_frostt_experiments() {
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
     ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
-        frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({0, 1}));
+        frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({0, 1}), tile_size);
     // CompactTensor<double> result =
     //    frostt_tensor.parallel_inner_outer_multiply<double>(
     //        frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({}),
@@ -215,7 +215,7 @@ void run_frostt_experiments() {
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
     ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
-        frostt_tensor, CoOrdinate({1, 2, 3}), CoOrdinate({1, 2, 3}));
+        frostt_tensor, CoOrdinate({1, 2, 3}), CoOrdinate({1, 2, 3}), tile_size);
     // CompactTensor<double> result =
     //    frostt_tensor.parallel_inner_outer_multiply<double>(
     //        frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({}),
@@ -238,63 +238,63 @@ void run_frostt_experiments() {
   }
 
   ////////// vast-3d experiments
-  std::cout << "Running vast-5d tensor" << std::endl;
-  frostt_tensor =
-      Tensor<double>(prefix+"/vast-2015-mc1-5d.tns",
-                     true);
-  frostt_tensor._infer_dimensionality();
-  frostt_tensor._infer_shape();
-  if (fork() == 0) {
-    std::cout << "mode 1 3 contraction" << std::endl;
-    getrusage(RUSAGE_SELF, &usage_before);
-    std::chrono::high_resolution_clock::time_point t1 =
-        std::chrono::high_resolution_clock::now();
-    //frostt_tensor.microbench_tile2d(
-    //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
-    //frostt_tensor.microbench_outer_outer(
-    //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
-    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
-        frostt_tensor, CoOrdinate({1, 3}), CoOrdinate({1, 3}), tile_size);
-    std::chrono::high_resolution_clock::time_point t2 =
-        std::chrono::high_resolution_clock::now();
-    getrusage(RUSAGE_SELF, &usage_after);
-    std::cout << "RAM usage (in GB): "
-              << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
-    std::chrono::duration<double> time_span =
-        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-    std::cout << "vast-2015-mc1-3d mode 1, 2, 4: " << time_span.count() << " seconds."
-              << std::endl;
-    exit(0);
-  } else {
-    int stat;
-    wait(&stat);
-  }
-  if (fork() == 0) {
-    std::cout << "mode 1 2 4 contraction" << std::endl;
-    getrusage(RUSAGE_SELF, &usage_before);
-    std::chrono::high_resolution_clock::time_point t1 =
-        std::chrono::high_resolution_clock::now();
-    // frostt_tensor.microbench_tile2d(
-    //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
-    // frostt_tensor.microbench_outer_outer(
-    //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
-    ListTensor<double> result =
-        frostt_tensor.parallel_tile2d_outer_multiply<double>(
-            frostt_tensor, CoOrdinate({1, 2, 4}), CoOrdinate({1, 2, 4}), tile_size);
-    std::chrono::high_resolution_clock::time_point t2 =
-        std::chrono::high_resolution_clock::now();
-    getrusage(RUSAGE_SELF, &usage_after);
-    std::cout << "RAM usage (in GB): "
-              << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
-    std::chrono::duration<double> time_span =
-        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-    std::cout << "vast-2015-mc1-5d mode 1, 2, 4: " << time_span.count()
-              << " seconds." << std::endl;
-    exit(0);
-  } else {
-    int stat;
-    wait(&stat);
-  }
+  //std::cout << "Running vast-5d tensor" << std::endl;
+  //frostt_tensor =
+  //    Tensor<double>(prefix+"/vast-2015-mc1-5d.tns",
+  //                   true);
+  //frostt_tensor._infer_dimensionality();
+  //frostt_tensor._infer_shape();
+  //if (fork() == 0) {
+  //  std::cout << "mode 1 3 contraction" << std::endl;
+  //  getrusage(RUSAGE_SELF, &usage_before);
+  //  std::chrono::high_resolution_clock::time_point t1 =
+  //      std::chrono::high_resolution_clock::now();
+  //  //frostt_tensor.microbench_tile2d(
+  //  //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
+  //  //frostt_tensor.microbench_outer_outer(
+  //  //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
+  //  ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
+  //      frostt_tensor, CoOrdinate({1, 3}), CoOrdinate({1, 3}), tile_size);
+  //  std::chrono::high_resolution_clock::time_point t2 =
+  //      std::chrono::high_resolution_clock::now();
+  //  getrusage(RUSAGE_SELF, &usage_after);
+  //  std::cout << "RAM usage (in GB): "
+  //            << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
+  //  std::chrono::duration<double> time_span =
+  //      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  //  std::cout << "vast-2015-mc1-3d mode 1, 2, 4: " << time_span.count() << " seconds."
+  //            << std::endl;
+  //  exit(0);
+  //} else {
+  //  int stat;
+  //  wait(&stat);
+  //}
+  //if (fork() == 0) {
+  //  std::cout << "mode 1 2 4 contraction" << std::endl;
+  //  getrusage(RUSAGE_SELF, &usage_before);
+  //  std::chrono::high_resolution_clock::time_point t1 =
+  //      std::chrono::high_resolution_clock::now();
+  //  // frostt_tensor.microbench_tile2d(
+  //  //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
+  //  // frostt_tensor.microbench_outer_outer(
+  //  //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
+  //  ListTensor<double> result =
+  //      frostt_tensor.parallel_tile2d_outer_multiply<double>(
+  //          frostt_tensor, CoOrdinate({1, 2, 4}), CoOrdinate({1, 2, 4}), tile_size);
+  //  std::chrono::high_resolution_clock::time_point t2 =
+  //      std::chrono::high_resolution_clock::now();
+  //  getrusage(RUSAGE_SELF, &usage_after);
+  //  std::cout << "RAM usage (in GB): "
+  //            << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
+  //  std::chrono::duration<double> time_span =
+  //      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  //  std::cout << "vast-2015-mc1-5d mode 1, 2, 4: " << time_span.count()
+  //            << " seconds." << std::endl;
+  //  exit(0);
+  //} else {
+  //  int stat;
+  //  wait(&stat);
+  //}
   //
   /////////// uber experiments
   std::cout << "Running uber tensor" << std::endl;

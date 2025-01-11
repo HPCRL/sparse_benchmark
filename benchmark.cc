@@ -209,50 +209,184 @@ void run_oom_cases() {
   }
 }
 
-void run_frostt_experiments() {
-  struct rusage usage_before, usage_after;
-  Tensor<double> frostt_tensor = Tensor<double>(
-      "/media/saurabh/New Volume/ubuntu_downloads/frostt/nips.tns", true);
+void frostt_nnz_estimate() {
+  std::string prefix = "/media/saurabh/New Volume1/ubuntu_downloads/frostt/";
+  Tensor<double> frostt_tensor =
+      Tensor<double>(prefix + "/chicago-crime-comm.tns", true);
   frostt_tensor._infer_dimensionality();
   frostt_tensor._infer_shape();
+  std::cout << "Chicago crime comm tensor output nnz:" << std::endl;
+  std::cout << "Mode 0 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  auto bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({0}),
+                                               CoOrdinate({0}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({0}),
+                                               CoOrdinate({0}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "Mode 0, 1 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({0, 1}),
+                                          CoOrdinate({0, 1}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({0, 1}),
+                                               CoOrdinate({0, 1}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "Mode 1, 2, 3 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({1, 2, 3}),
+                                          CoOrdinate({1, 2, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({1, 2, 3}),
+                                               CoOrdinate({1, 2, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+
+  frostt_tensor = Tensor<double>(prefix + "/uber.tns", true);
+  frostt_tensor._infer_dimensionality();
+  frostt_tensor._infer_shape();
+  std::cout << "Uber tensor output nnz:" << std::endl;
+  std::cout << "Mode 0 2 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({0, 2}),
+                                          CoOrdinate({0, 2}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({0, 2}),
+                                               CoOrdinate({0, 2}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "Mode 1 2 3 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({1, 2, 3}),
+                                          CoOrdinate({1, 2, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({1, 2, 3}),
+                                               CoOrdinate({1, 2, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  frostt_tensor = Tensor<double>(prefix + "/vast-2015-mc1-5d.tns", true);
+  frostt_tensor._infer_dimensionality();
+  frostt_tensor._infer_shape();
+  std::cout << "vast-5d tensor output nnz:" << std::endl;
+  std::cout << "Mode 0 1 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({0, 1}),
+                                          CoOrdinate({0, 1}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({0, 1}),
+                                               CoOrdinate({0, 1}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "Mode 0 1 4 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({0, 1, 4}),
+                                          CoOrdinate({0, 1, 4}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({0, 1, 4}),
+                                               CoOrdinate({0, 1, 4}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  frostt_tensor = Tensor<double>(prefix + "/nips.tns", true);
+  frostt_tensor._infer_dimensionality();
+  frostt_tensor._infer_shape();
+  std::cout << "nips tensor output nnz:" << std::endl;
+  std::cout << "Mode 2 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({2}),
+                                          CoOrdinate({2}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({2}),
+                                               CoOrdinate({2}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "Mode 2 3 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({2, 3}),
+                                          CoOrdinate({2, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({2, 3}),
+                                               CoOrdinate({2, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "Mode 0 1 3 contraction: " << std::endl;
+  std::cout << "using inner outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_inner_outer(frostt_tensor, CoOrdinate({0, 1, 3}),
+                                          CoOrdinate({0, 1, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  std::cout << "using outer outer" << std::endl;
+  bounds = frostt_tensor.bound_output_nnz_outer_outer(frostt_tensor, CoOrdinate({0, 1, 3}),
+                                               CoOrdinate({0, 1, 3}));
+  std::cout << "Lower bound: " << bounds.first
+            << " Upper bound: " << bounds.second << std::endl;
+  return;
+}
+
+void run_frostt_experiments() {
+  struct rusage usage_before, usage_after;
+  std::string prefix = "/media/saurabh/New Volume1/ubuntu_downloads/frostt/";
+  //Tensor<double> frostt_tensor = Tensor<double>(
+  //    "/media/saurabh/New Volume/ubuntu_downloads/frostt/nips.tns", true);
+  //frostt_tensor._infer_dimensionality();
+  //frostt_tensor._infer_shape();
   //int l2_size = 16 * 1024 * 1024; //in bytes
   //int num_elts = l2_size / sizeof(double);
   //int tile_size = sqrt(scaling_factor * num_elts);
-  int minsize = 1000000;
+  int minsize = 10000;
   int tile_size = sqrt(scaling_factor * minsize);
   // nips experiments
-  std::cout << "Running nips tensor" << std::endl;
-  int pid = fork();
-  if (pid == 0) {
-    std::cout << "mode 2 contraction" << std::endl;
-    getrusage(RUSAGE_SELF, &usage_before);
-    std::chrono::high_resolution_clock::time_point t1 =
-        std::chrono::high_resolution_clock::now();
-    //frostt_tensor.microbench_tile2d(
-    //    frostt_tensor, CoOrdinate({2}), CoOrdinate({2}), tile_size);
-    //frostt_tensor.microbench_outer_outer(
-    //    frostt_tensor, CoOrdinate({2}), CoOrdinate({2}));
-    ListTensor<double> result =
-    frostt_tensor.parallel_tile2d_outer_multiply<double>(
-        frostt_tensor, CoOrdinate({2}), CoOrdinate({2}), tile_size);
-    //  CompactTensor<double> result =
-    //  frostt_tensor.parallel_inner_outer_multiply<double>(
-    //     frostt_tensor, CoOrdinate({2}), CoOrdinate({}), CoOrdinate({2}),
-    //     CoOrdinate({}));
-    std::chrono::high_resolution_clock::time_point t2 =
-        std::chrono::high_resolution_clock::now();
-    getrusage(RUSAGE_SELF, &usage_after);
-    std::chrono::duration<double> time_span =
-        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-    std::cout << "RAM usage (in KB): "
-              << usage_after.ru_maxrss - usage_before.ru_maxrss << std::endl;
-    std::cout << "NIPS mode 2: " << time_span.count() << " seconds."
-              << std::endl;
-    exit(0);
-  } else {
-    int stat;
-    wait(&stat);
-  }
+  //std::cout << "Running nips tensor" << std::endl;
+  //int pid = fork();
+  //if (pid == 0) {
+  //  std::cout << "mode 2 contraction" << std::endl;
+  //  getrusage(RUSAGE_SELF, &usage_before);
+  //  std::chrono::high_resolution_clock::time_point t1 =
+  //      std::chrono::high_resolution_clock::now();
+  //  //frostt_tensor.microbench_tile2d(
+  //  //    frostt_tensor, CoOrdinate({2}), CoOrdinate({2}), tile_size);
+  //  //frostt_tensor.microbench_outer_outer(
+  //  //    frostt_tensor, CoOrdinate({2}), CoOrdinate({2}));
+  //  ListTensor<double> result =
+  //  frostt_tensor.parallel_tile2d_outer_multiply<double>(
+  //      frostt_tensor, CoOrdinate({2}), CoOrdinate({2}), tile_size);
+  //  //  CompactTensor<double> result =
+  //  //  frostt_tensor.parallel_inner_outer_multiply<double>(
+  //  //     frostt_tensor, CoOrdinate({2}), CoOrdinate({}), CoOrdinate({2}),
+  //  //     CoOrdinate({}));
+  //  std::chrono::high_resolution_clock::time_point t2 =
+  //      std::chrono::high_resolution_clock::now();
+  //  getrusage(RUSAGE_SELF, &usage_after);
+  //  std::chrono::duration<double> time_span =
+  //      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  //  std::cout << "RAM usage (in KB): "
+  //            << usage_after.ru_maxrss - usage_before.ru_maxrss << std::endl;
+  //  std::cout << "NIPS mode 2: " << time_span.count() << " seconds."
+  //            << std::endl;
+  //  exit(0);
+  //} else {
+  //  int stat;
+  //  wait(&stat);
+  //}
   //if (fork() == 0) {
   //  std::cout << "mode 2 3 contraction" << std::endl;
   //  getrusage(RUSAGE_SELF, &usage_before);
@@ -316,7 +450,7 @@ void run_frostt_experiments() {
 
   ////////// chicago experiments
   //std::cout << "Running chicago tensor" << std::endl;
-  //frostt_tensor =
+  //Tensor<double> frostt_tensor =
   //    Tensor<double>(prefix+"/chicago-crime-comm.tns",
   //                   true);
   //frostt_tensor._infer_dimensionality();
@@ -354,7 +488,7 @@ void run_frostt_experiments() {
   //  getrusage(RUSAGE_SELF, &usage_before);
   //  std::chrono::high_resolution_clock::time_point t1 =
   //      std::chrono::high_resolution_clock::now();
-  //  ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
+  //  ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
   //      frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({0, 1}), tile_size);
   //  // CompactTensor<double> result =
   //  //    frostt_tensor.parallel_inner_outer_multiply<double>(
@@ -405,68 +539,68 @@ void run_frostt_experiments() {
   //}
 
   //////////// vast-3d experiments
-  //std::cout << "Running vast-5d tensor" << std::endl;
-  //frostt_tensor =
-  //    Tensor<double>(prefix+"/vast-2015-mc1-5d.tns",
-  //                   true);
-  //frostt_tensor._infer_dimensionality();
-  //frostt_tensor._infer_shape();
-  //if (fork() == 0) {
-  //  std::cout << "mode 0 1 contraction" << std::endl;
-  //  getrusage(RUSAGE_SELF, &usage_before);
-  //  std::chrono::high_resolution_clock::time_point t1 =
-  //      std::chrono::high_resolution_clock::now();
-  //  //frostt_tensor.microbench_tile2d(
-  //  //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
-  //  //frostt_tensor.microbench_outer_outer(
-  //  //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
-  //  ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
-  //      frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({0, 1}), tile_size);
-  //  //CompactTensor<double> result = frostt_tensor.inner_outer_multiply<double>(
-  //  //    frostt_tensor, CoOrdinate({0, 3}), CoOrdinate({0, 3}));
-  //  std::chrono::high_resolution_clock::time_point t2 =
-  //      std::chrono::high_resolution_clock::now();
-  //  getrusage(RUSAGE_SELF, &usage_after);
-  //  std::cout << "RAM usage (in GB): "
-  //            << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
-  //  std::chrono::duration<double> time_span =
-  //      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  //  std::cout << "vast-2015-mc1-5d mode 0, 1: " << time_span.count() << " seconds."
-  //            << std::endl;
-  //  exit(0);
-  //} else {
-  //  int stat;
-  //  wait(&stat);
-  //}
-  //if (fork() == 0) {
-  //  std::cout << "mode 0 2 4 contraction" << std::endl;
-  //  getrusage(RUSAGE_SELF, &usage_before);
-  //  std::chrono::high_resolution_clock::time_point t1 =
-  //      std::chrono::high_resolution_clock::now();
-  //  // frostt_tensor.microbench_tile2d(
-  //  //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
-  //  // frostt_tensor.microbench_outer_outer(
-  //  //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
-  //  ListTensor<double> result =
-  //      frostt_tensor.parallel_tile2d_outer_multiply<double>(
-  //          frostt_tensor, CoOrdinate({0, 1, 4}), CoOrdinate({0, 1, 4}), tile_size);
-  //  //CompactTensor<double> result =
-  //  //    frostt_tensor.inner_outer_multiply<double>(
-  //  //        frostt_tensor, CoOrdinate({0, 2, 4}), CoOrdinate({0, 2, 4}));
-  //  std::chrono::high_resolution_clock::time_point t2 =
-  //      std::chrono::high_resolution_clock::now();
-  //  getrusage(RUSAGE_SELF, &usage_after);
-  //  std::cout << "RAM usage (in GB): "
-  //            << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
-  //  std::chrono::duration<double> time_span =
-  //      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  //  std::cout << "vast-2015-mc1-5d mode 0, 1, 4: " << time_span.count()
-  //            << " seconds." << std::endl;
-  //  exit(0);
-  //} else {
-  //  int stat;
-  //  wait(&stat);
-  //}
+  std::cout << "Running vast-5d tensor" << std::endl;
+  Tensor<double> frostt_tensor =
+      Tensor<double>(prefix+"/vast-2015-mc1-5d.tns",
+                     true);
+  frostt_tensor._infer_dimensionality();
+  frostt_tensor._infer_shape();
+  if (fork() == 0) {
+    std::cout << "mode 0 1 contraction" << std::endl;
+    getrusage(RUSAGE_SELF, &usage_before);
+    std::chrono::high_resolution_clock::time_point t1 =
+        std::chrono::high_resolution_clock::now();
+    //frostt_tensor.microbench_tile2d(
+    //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
+    //frostt_tensor.microbench_outer_outer(
+    //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
+    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+        frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({0, 1}), tile_size);
+    //CompactTensor<double> result = frostt_tensor.inner_outer_multiply<double>(
+    //    frostt_tensor, CoOrdinate({0, 3}), CoOrdinate({0, 3}));
+    std::chrono::high_resolution_clock::time_point t2 =
+        std::chrono::high_resolution_clock::now();
+    getrusage(RUSAGE_SELF, &usage_after);
+    std::cout << "RAM usage (in GB): "
+              << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
+    std::chrono::duration<double> time_span =
+        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+    std::cout << "vast-2015-mc1-5d mode 0, 1: " << time_span.count() << " seconds."
+              << std::endl;
+    exit(0);
+  } else {
+    int stat;
+    wait(&stat);
+  }
+  if (fork() == 0) {
+    std::cout << "mode 0 1 4 contraction" << std::endl;
+    getrusage(RUSAGE_SELF, &usage_before);
+    std::chrono::high_resolution_clock::time_point t1 =
+        std::chrono::high_resolution_clock::now();
+    // frostt_tensor.microbench_tile2d(
+    //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
+    // frostt_tensor.microbench_outer_outer(
+    //     frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
+    ListTensor<double> result =
+        frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+            frostt_tensor, CoOrdinate({0, 1, 4}), CoOrdinate({0, 1, 4}), tile_size);
+    //CompactTensor<double> result =
+    //    frostt_tensor.inner_outer_multiply<double>(
+    //        frostt_tensor, CoOrdinate({0, 2, 4}), CoOrdinate({0, 2, 4}));
+    std::chrono::high_resolution_clock::time_point t2 =
+        std::chrono::high_resolution_clock::now();
+    getrusage(RUSAGE_SELF, &usage_after);
+    std::cout << "RAM usage (in GB): "
+              << (usage_after.ru_maxrss - usage_before.ru_maxrss) << std::endl;
+    std::chrono::duration<double> time_span =
+        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+    std::cout << "vast-2015-mc1-5d mode 0, 1, 4: " << time_span.count()
+              << " seconds." << std::endl;
+    exit(0);
+  } else {
+    int stat;
+    wait(&stat);
+  }
   ////
   ///////////// uber experiments
   //std::cout << "Running uber tensor" << std::endl;
@@ -509,7 +643,7 @@ void run_frostt_experiments() {
   //  //    frostt_tensor, CoOrdinate({0, 3}), CoOrdinate({0, 3}), tile_size);
   //  //frostt_tensor.microbench_outer_outer(
   //  //    frostt_tensor, CoOrdinate({0}), CoOrdinate({0}));
-  //  ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
+  //  ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
   //      frostt_tensor, CoOrdinate({1, 2, 3}), CoOrdinate({1, 2, 3}), tile_size);
   //  std::chrono::high_resolution_clock::time_point t2 =
   //      std::chrono::high_resolution_clock::now();
@@ -533,132 +667,86 @@ int get_l2_num_elts(){
     return l2_numelts;
 }
 
-double self_contraction(Tensor<double> dlpno_tensor) {
-  dlpno_tensor._infer_dimensionality();
-  dlpno_tensor._infer_shape();
-  std::chrono::high_resolution_clock::time_point t1 =
-      std::chrono::high_resolution_clock::now();
-  std::chrono::high_resolution_clock::time_point t2 =
-      std::chrono::high_resolution_clock::now();
-  std::chrono::duration<double> time_span =
-      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  //int l2_size = 16 * 1024 * 1024; //in bytes
-  //int num_elts = l2_size / sizeof(double);
-  //int tile_size = scaling_factor * num_elts;
-  int minsize = 10000;
-  int tile_size = sqrt(scaling_factor * minsize);
-  int sqrt_tile_size = tile_size;
-  t1 = std::chrono::high_resolution_clock::now();
-  // CompactTensor<double> result_inout =
-  //    dlpno_tensor.inner_outer_multiply<double>(dlpno_tensor, CoOrdinate({2}),
-  //                                              CoOrdinate({2}));
-  ListTensor<double> result_inout = dlpno_tensor.parallel_tile2d_outer_multiply<double>(
-      dlpno_tensor, CoOrdinate({2}), CoOrdinate({2}), sqrt_tile_size);
-  t2 = std::chrono::high_resolution_clock::now();
-  time_span =
-      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  std::cout << time_span.count() << " seconds." << std::endl;
-  return time_span.count();
-}
-
-double pair_contraction(Tensor<double> dlpno_tensor1,
-                        Tensor<double> dlpno_tensor2) {
-  // res(i, j, m, e_mu) = teoo(i, j, k) * teov(m, e_mu, k)
-  dlpno_tensor1._infer_dimensionality();
-  dlpno_tensor1._infer_shape();
-  dlpno_tensor2._infer_dimensionality();
-  dlpno_tensor2._infer_shape();
-  std::chrono::high_resolution_clock::time_point t1 =
-      std::chrono::high_resolution_clock::now();
-  std::chrono::high_resolution_clock::time_point t2 =
-      std::chrono::high_resolution_clock::now();
-  std::chrono::duration<double> time_span =
-      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  //int l2_size = 16 * 1024 * 1024; //in bytes
-  //int num_elts = l2_size / sizeof(double);
-  //int tile_size = scaling_factor * num_elts;
-  int minsize = 10000;
-  int tile_size = sqrt(scaling_factor * minsize);
-  int sqrt_tile_size = tile_size;
-
-  t1 = std::chrono::high_resolution_clock::now();
-  // CompactTensor<double> result_inout =
-  //    dlpno_tensor1.inner_outer_multiply<double>(
-  //        dlpno_tensor2, CoOrdinate({2}), CoOrdinate({2}));
-  // CompactTensor<double> result_inout =
-  //     dlpno_tensor1.outer_outer_multiply<double>(
-  //         dlpno_tensor2, CoOrdinate({2}), CoOrdinate({2}));
-  ListTensor<double> result_inout =
-      dlpno_tensor1.parallel_tile2d_outer_multiply<double>(
-          dlpno_tensor2, CoOrdinate({2}), CoOrdinate({2}), sqrt_tile_size);
-
-  t2 = std::chrono::high_resolution_clock::now();
-  time_span =
-      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-  std::cout << time_span.count() << " seconds." << std::endl;
-  return time_span.count();
-}
-
 void run_dlpno_experiments() {
-  std::cout << "Running caffeine data" << std::endl;
-  Tensor<double> teoo = Tensor<double>("./caffeine_data/TEoo.tns", true);
-  teoo._infer_dimensionality();
-  teoo._infer_shape();
-  Tensor<double> teov = Tensor<double>("./caffeine_data/TEov.tns", true);
-  teov._infer_dimensionality();
-  teov._infer_shape();
-  Tensor<double> tevv = Tensor<double>("./caffeine_data/TEvv.tns", true);
-  tevv._infer_dimensionality();
-  tevv._infer_shape();
-  std::cout << "Time for TEov * TEov " << std::endl;
-  self_contraction(teov);
-  std::cout << "Time for TEoo * TEoo " << std::endl;
-  self_contraction(teoo);
-  std::cout << "Time for TEov * TEoo " << std::endl;
-  pair_contraction(teov, teoo);
-  std::cout << "Time for TEvv * TEoo " << std::endl;
-  pair_contraction(tevv, teoo);
+    std::cout << "Running helium data small" << std::endl;
+    int minsize = 100000;
+    int tile_size = sqrt(scaling_factor * minsize);
+    if (fork() == 0) {
+        Tensor<double> teov = Tensor<double>(
+            "./helium_small/threec_int.tns",
+            true);
+        teov._infer_dimensionality();
+        teov._infer_shape();
+        std::cout << "Time for TEov * TEov " << std::endl;
+        std::chrono::high_resolution_clock::time_point t1 =
+            std::chrono::high_resolution_clock::now();
+        ListTensor<double> result = teov.parallel_tile2d_outer_multiply<double>(teov, CoOrdinate({0}),
+                                                    CoOrdinate({0}), tile_size);
+        std::chrono::high_resolution_clock::time_point t2 =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> time_span =
+            std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "helium small time : " << time_span.count() << " seconds."
+                  << std::endl;
+        exit(0);
+    } else {
+        int stat;
+        wait(&stat);
+    }
+    std::cout << "Running helium data medium" << std::endl;
+    if (fork() == 0) {
+        Tensor<double> teov = Tensor<double>(
+            "./helium_medium/threec_int.tns",
+            true);
+        teov._infer_dimensionality();
+        teov._infer_shape();
+        std::cout << "Time for TEov * TEov " << std::endl;
+        std::chrono::high_resolution_clock::time_point t1 =
+            std::chrono::high_resolution_clock::now();
+        ListTensor<double> result = teov.parallel_tile2d_outer_multiply<double>(teov, CoOrdinate({0}),
+                                                    CoOrdinate({0}), tile_size);
+        std::chrono::high_resolution_clock::time_point t2 =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> time_span =
+            std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "helium medium time : " << time_span.count() << " seconds."
+                  << std::endl;
+        exit(0);
+    } else {
+        int stat;
+        wait(&stat);
+    }
+    std::cout << "Running helium data large" << std::endl;
+    if (fork() == 0) {
+        Tensor<double> teov = Tensor<double>(
+            "./helium_large/threec_int.tns",
+            true);
+        teov._infer_dimensionality();
+        teov._infer_shape();
+        std::cout << "Time for TEov * TEov " << std::endl;
+        std::chrono::high_resolution_clock::time_point t1 =
+            std::chrono::high_resolution_clock::now();
+        ListTensor<double> result = teov.parallel_tile2d_outer_multiply<double>(teov, CoOrdinate({0}),
+                                                    CoOrdinate({0}), tile_size);
+        std::chrono::high_resolution_clock::time_point t2 =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> time_span =
+            std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "helium large time : " << time_span.count() << " seconds."
+                  << std::endl;
+        exit(0);
+    } else {
+        int stat;
+        wait(&stat);
+    }
 }
 
 int main() {
-  // taco::Tensor<double> teov =
-  //     taco::read("./benzene_data/TEov.tns",
-  //                taco::Format({taco::Dense, taco::Sparse, taco::Sparse}));
-  // std::cout << teov.getDimension(0) << ", " << teov.getDimension(1) << ", "
-  //           << teov.getDimension(2) << std::endl;
-  // teov.pack();
-  // taco::Tensor<double> teov1 =
-  //     taco::read("./benzene_data/TEov.tns",
-  //                taco::Format({taco::Dense, taco::Sparse, taco::Sparse}));
-  // teov1.setName("teov1");
-  // teov1.pack();
-  // taco_teov_pao_contraction(teov, teov1);
-  //  std::cout<<"int is "<<sizeof(int)<<", short is "<<sizeof(short)<<", long
-  //  is
-  //  "<<sizeof(long)<<", long long is "<<sizeof(long long)<<std::endl;
-  // Tensor<double> teoo =
-  //    Tensor<double>("./caffeine_data/TEoo.tns", true); //
-  //    Tensor<double>("./benzene_data/TEov.tns", false);
-  // Tensor<double> teov =
-  //    Tensor<double>("./caffeine_data/TEov.tns", true); //
-  //    Tensor<double>("./benzene_data/TEov.tns", false);
-  // teoo_teov_k_contraction(teoo, teov);
-  // teoo_k_contraction(teoo);
-  // hmap_teov_pao_contraction(teov);
-  // Tensor<double> tevv = Tensor<double>("./caffeine_data/TEvv.tns", true);
-  // std::cout<<"gonna run tevv times teov" <<std::endl;
-  // teoo_teov_k_contraction(tevv, teov);
-  // std::cout<<"gonna run tevv times teoo" <<std::endl;
-  // teoo_teov_k_contraction(tevv, teoo);
-  // try tevv times teov.
-  // Tensor<double> frostt_tensor = Tensor<double>(
-  //    "/media/saurabh/New Volume1/ubuntu_downloads/frostt/nips.tns",
-  //    true); // Tensor<double>("./benzene_data/TEov.tns", false);
-  // single_mode_contraction(frostt_tensor);
-  // two_mode_contraction(frostt_tensor);
-  //std::vector<float> tile_scaling_factors = {0.04, 0.2, 1,    5,     25,
-  //                                           125,  625};//, 78125};
-  std::vector<float> tile_scaling_factors = {25, 125, 625};
+
+  std::vector<float> tile_scaling_factors = {0.04, 0.2, 1,    5,     25, 125, 625, 78125, 390625};
+  //std::vector<float> tile_scaling_factors = {0.25, 1, 4, 16, 64, 256, 1024, 4096};
+
+  //std::vector<float> tile_scaling_factors = {125, 625, 78125, 390625};
   //std::vector<float> tile_scaling_factors = {3125,
   //                                           //15625,
   //                                           //78125,
@@ -668,21 +756,12 @@ int main() {
   //                                           static_cast<float>(48828125),
   //                                           static_cast<float>(244140625)};
   //std::vector<float> tile_scaling_factors = {125};
-  // 5 is too small
   for (auto s : tile_scaling_factors) {
     scaling_factor = s;
     std::cout << "Scaling factor: " << scaling_factor << std::endl;
-    run_oom_cases();
+    //run_dlpno_experiments();
+    run_frostt_experiments();
   }
   //run_frostt_experiments();
-  //taco::Tensor<double> frostt_tensor =
-  //    taco::read("/media/saurabh/New Volume1/ubuntu_downloads/frostt/nips.tns",
-  //               taco::Format({taco::Dense, taco::Sparse, taco::Sparse,
-  //                             taco::Sparse}));
-  //taco::Tensor<double> frostt_tensor =
-  //    taco::read("/media/saurabh/New Volume1/ubuntu_downloads/frostt/nips.tns",
-  //               taco::Format({taco::Dense, taco::Sparse, taco::Sparse,
-  //                             taco::Sparse}));
-  //taco_frostt(frostt_tensor);
-  //run_dlpno_experiments();
+  //frostt_nnz_estimate();
 }

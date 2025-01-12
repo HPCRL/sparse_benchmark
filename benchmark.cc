@@ -5,7 +5,7 @@
 #include <sys/resource.h>
 #include <sys/wait.h>
 #include <vector>
-static float scaling_factor = 25;
+static float scaling_factor = 131072;
 
 
 // void test_teov_pao_contraction(Tensor<double> teov){
@@ -50,8 +50,8 @@ void run_oom_cases() {
   // int l2_size = 16 * 1024 * 1024; //in bytes
   // int num_elts = l2_size / sizeof(double);
   // int tile_size = sqrt(scaling_factor * num_elts);
-  int minsize = 1000000;
-  int tile_size = sqrt(scaling_factor * minsize);
+  //int minsize = 1000000;
+  int tile_size = scaling_factor;
   // nips experiments
   std::cout << "Running flickr-4d tensor" << std::endl;
   if (fork() == 0) {
@@ -345,66 +345,64 @@ void frostt_nnz_estimate() {
 void run_frostt_experiments() {
   struct rusage usage_before, usage_after;
   std::string prefix = "/media/saurabh/New Volume1/ubuntu_downloads/frostt/";
-  Tensor<double> frostt_tensor = Tensor<double>(prefix+"nips.tns", true);
+  Tensor<double> frostt_tensor = Tensor<double>(prefix+"/nips.tns", true);
   frostt_tensor._infer_dimensionality();
   frostt_tensor._infer_shape();
   //int l2_size = 16 * 1024 * 1024; //in bytes
   //int num_elts = l2_size / sizeof(double);
   //int tile_size = sqrt(scaling_factor * num_elts);
-  int minsize = 1000000;
-  int tile_size = sqrt(scaling_factor * minsize);
+  int tile_size = scaling_factor;
   // nips experiments
   std::cout << "Running nips tensor" << std::endl;
-  int pid = fork();
-  if (pid == 0) {
-    std::cout << "mode 2 contraction" << std::endl;
-    getrusage(RUSAGE_SELF, &usage_before);
-    std::chrono::high_resolution_clock::time_point t1 =
-        std::chrono::high_resolution_clock::now();
-    ListTensor<double> result =
-    frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
-        frostt_tensor, CoOrdinate({2}), CoOrdinate({2}), tile_size);
-    std::chrono::high_resolution_clock::time_point t2 =
-        std::chrono::high_resolution_clock::now();
-    getrusage(RUSAGE_SELF, &usage_after);
-    std::chrono::duration<double> time_span =
-        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-    std::cout << "RAM usage (in KB): "
-              << usage_after.ru_maxrss - usage_before.ru_maxrss << std::endl;
-    std::cout << "NIPS mode 2: " << time_span.count() << " seconds."
-              << std::endl;
-    exit(0);
-  } else {
-    int stat;
-    wait(&stat);
-  }
-  if (fork() == 0) {
-    std::cout << "mode 2 3 contraction" << std::endl;
-    getrusage(RUSAGE_SELF, &usage_before);
-    std::chrono::high_resolution_clock::time_point t1 =
-        std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
-        frostt_tensor, CoOrdinate({2, 3}), CoOrdinate({2, 3}), tile_size);
-    std::chrono::high_resolution_clock::time_point t2 =
-        std::chrono::high_resolution_clock::now();
-    getrusage(RUSAGE_SELF, &usage_after);
-    std::chrono::duration<double> time_span =
-        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-    std::cout << "NIPS mode 2, 3: " << time_span.count() << " seconds."
-              << std::endl;
-    std::cout << "RAM usage (in KB): "
-              << usage_after.ru_maxrss - usage_before.ru_maxrss << std::endl;
-    exit(0);
-  } else {
-    int stat;
-    wait(&stat);
-  }
+  //if (fork() == 0) {
+  //  std::cout << "mode 2 contraction" << std::endl;
+  //  getrusage(RUSAGE_SELF, &usage_before);
+  //  std::chrono::high_resolution_clock::time_point t1 =
+  //      std::chrono::high_resolution_clock::now();
+  //  ListTensor<double> result =
+  //  frostt_tensor.parallel_tile2d_outer_multiply<double>(
+  //      frostt_tensor, CoOrdinate({2}), CoOrdinate({2}), tile_size);
+  //  std::chrono::high_resolution_clock::time_point t2 =
+  //      std::chrono::high_resolution_clock::now();
+  //  getrusage(RUSAGE_SELF, &usage_after);
+  //  std::chrono::duration<double> time_span =
+  //      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  //  std::cout << "RAM usage (in KB): "
+  //            << usage_after.ru_maxrss - usage_before.ru_maxrss << std::endl;
+  //  std::cout << "NIPS mode 2: " << time_span.count() << " seconds."
+  //            << std::endl;
+  //  exit(0);
+  //} else {
+  //  int stat;
+  //  wait(&stat);
+  //}
+  //if (fork() == 0) {
+  //  std::cout << "mode 2 3 contraction" << std::endl;
+  //  getrusage(RUSAGE_SELF, &usage_before);
+  //  std::chrono::high_resolution_clock::time_point t1 =
+  //      std::chrono::high_resolution_clock::now();
+  //  ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
+  //      frostt_tensor, CoOrdinate({2, 3}), CoOrdinate({2, 3}), tile_size);
+  //  std::chrono::high_resolution_clock::time_point t2 =
+  //      std::chrono::high_resolution_clock::now();
+  //  getrusage(RUSAGE_SELF, &usage_after);
+  //  std::chrono::duration<double> time_span =
+  //      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+  //  std::cout << "NIPS mode 2, 3: " << time_span.count() << " seconds."
+  //            << std::endl;
+  //  std::cout << "RAM usage (in KB): "
+  //            << usage_after.ru_maxrss - usage_before.ru_maxrss << std::endl;
+  //  exit(0);
+  //} else {
+  //  int stat;
+  //  wait(&stat);
+  //}
   if (fork() == 0) {
     std::cout << "mode 0 1 3 contraction" << std::endl;
     getrusage(RUSAGE_SELF, &usage_before);
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
         frostt_tensor, CoOrdinate({0, 1, 3}), CoOrdinate({0, 1, 3}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -422,7 +420,7 @@ void run_frostt_experiments() {
   }
   //std::string prefix = "/media/saurabh/New Volume/ubuntu_downloads/frostt/";
 
-  ////////// chicago experiments
+  //////// chicago experiments
   std::cout << "Running chicago tensor" << std::endl;
   frostt_tensor =
       Tensor<double>(prefix+"/chicago-crime-comm.tns",
@@ -434,7 +432,7 @@ void run_frostt_experiments() {
     getrusage(RUSAGE_SELF, &usage_before);
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
         frostt_tensor, CoOrdinate({0}), CoOrdinate({0}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -455,7 +453,7 @@ void run_frostt_experiments() {
     getrusage(RUSAGE_SELF, &usage_before);
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
         frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({0, 1}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -476,7 +474,7 @@ void run_frostt_experiments() {
     getrusage(RUSAGE_SELF, &usage_before);
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
         frostt_tensor, CoOrdinate({1, 2, 3}), CoOrdinate({1, 2, 3}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -505,7 +503,7 @@ void run_frostt_experiments() {
     getrusage(RUSAGE_SELF, &usage_before);
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
         frostt_tensor, CoOrdinate({0, 1}), CoOrdinate({0, 1}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -527,7 +525,7 @@ void run_frostt_experiments() {
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
     ListTensor<double> result =
-        frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+        frostt_tensor.parallel_tile2d_outer_multiply<double>(
             frostt_tensor, CoOrdinate({0, 1, 4}), CoOrdinate({0, 1, 4}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -543,8 +541,8 @@ void run_frostt_experiments() {
     int stat;
     wait(&stat);
   }
-  ////
-  ///////////// uber experiments
+  
+  ///////// uber experiments
   std::cout << "Running uber tensor" << std::endl;
   frostt_tensor =
       Tensor<double>(prefix+"/uber.tns",
@@ -556,7 +554,7 @@ void run_frostt_experiments() {
     getrusage(RUSAGE_SELF, &usage_before);
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
         frostt_tensor, CoOrdinate({0, 2}), CoOrdinate({0, 2}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -577,7 +575,7 @@ void run_frostt_experiments() {
     getrusage(RUSAGE_SELF, &usage_before);
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
-    ListTensor<double> result = frostt_tensor.parallel_HT_tile2d_outer_multiply<double>(
+    ListTensor<double> result = frostt_tensor.parallel_tile2d_outer_multiply<double>(
         frostt_tensor, CoOrdinate({1, 2, 3}), CoOrdinate({1, 2, 3}), tile_size);
     std::chrono::high_resolution_clock::time_point t2 =
         std::chrono::high_resolution_clock::now();
@@ -602,54 +600,55 @@ int get_l2_num_elts(){
 }
 
 void run_dlpno_experiments() {
-    std::cout << "Running helium data small" << std::endl;
-    int minsize = 100000;
-    int tile_size = sqrt(scaling_factor * minsize);
-    //if (fork() == 0) {
-    //    Tensor<double> teov = Tensor<double>(
-    //        "./helium_small/threec_int.tns",
-    //        true);
-    //    teov._infer_dimensionality();
-    //    teov._infer_shape();
-    //    std::cout << "Time for TEov * TEov " << std::endl;
-    //    std::chrono::high_resolution_clock::time_point t1 =
-    //        std::chrono::high_resolution_clock::now();
-    //    ListTensor<double> result = teov.parallel_tile2d_outer_multiply<double>(teov, CoOrdinate({0}),
-    //                                                CoOrdinate({0}), tile_size);
-    //    std::chrono::high_resolution_clock::time_point t2 =
-    //        std::chrono::high_resolution_clock::now();
-    //    std::chrono::duration<double> time_span =
-    //        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-    //    std::cout << "helium small time : " << time_span.count() << " seconds."
-    //              << std::endl;
-    //    exit(0);
-    //} else {
-    //    int stat;
-    //    wait(&stat);
-    //}
-    //std::cout << "Running helium data medium" << std::endl;
-    //if (fork() == 0) {
-    //    Tensor<double> teov = Tensor<double>(
-    //        "./helium_medium/threec_int.tns",
-    //        true);
-    //    teov._infer_dimensionality();
-    //    teov._infer_shape();
-    //    std::cout << "Time for TEov * TEov " << std::endl;
-    //    std::chrono::high_resolution_clock::time_point t1 =
-    //        std::chrono::high_resolution_clock::now();
-    //    ListTensor<double> result = teov.parallel_tile2d_outer_multiply<double>(teov, CoOrdinate({0}),
-    //                                                CoOrdinate({0}), tile_size);
-    //    std::chrono::high_resolution_clock::time_point t2 =
-    //        std::chrono::high_resolution_clock::now();
-    //    std::chrono::duration<double> time_span =
-    //        std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-    //    std::cout << "helium medium time : " << time_span.count() << " seconds."
-    //              << std::endl;
-    //    exit(0);
-    //} else {
-    //    int stat;
-    //    wait(&stat);
-    //}
+    //std::cout << "Running helium data small" << std::endl;
+    //int minsize = 100000;
+    //int tile_size = sqrt(scaling_factor * minsize);
+    int tile_size = scaling_factor;
+    if (fork() == 0) {
+        Tensor<double> teov = Tensor<double>(
+            "./helium_small/threec_int.tns",
+            true);
+        teov._infer_dimensionality();
+        teov._infer_shape();
+        std::cout << "Time for TEov * TEov " << std::endl;
+        std::chrono::high_resolution_clock::time_point t1 =
+            std::chrono::high_resolution_clock::now();
+        ListTensor<double> result = teov.parallel_tile2d_outer_multiply<double>(teov, CoOrdinate({0}),
+                                                    CoOrdinate({0}), tile_size);
+        std::chrono::high_resolution_clock::time_point t2 =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> time_span =
+            std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "helium small time : " << time_span.count() << " seconds."
+                  << std::endl;
+        exit(0);
+    } else {
+        int stat;
+        wait(&stat);
+    }
+    std::cout << "Running helium data medium" << std::endl;
+    if (fork() == 0) {
+        Tensor<double> teov = Tensor<double>(
+            "./helium_medium/threec_int.tns",
+            true);
+        teov._infer_dimensionality();
+        teov._infer_shape();
+        std::cout << "Time for TEov * TEov " << std::endl;
+        std::chrono::high_resolution_clock::time_point t1 =
+            std::chrono::high_resolution_clock::now();
+        ListTensor<double> result = teov.parallel_tile2d_outer_multiply<double>(teov, CoOrdinate({0}),
+                                                    CoOrdinate({0}), tile_size);
+        std::chrono::high_resolution_clock::time_point t2 =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> time_span =
+            std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "helium medium time : " << time_span.count() << " seconds."
+                  << std::endl;
+        exit(0);
+    } else {
+        int stat;
+        wait(&stat);
+    }
     std::cout << "Running helium data large" << std::endl;
     if (fork() == 0) {
         Tensor<double> teov = Tensor<double>(
@@ -675,10 +674,63 @@ void run_dlpno_experiments() {
     }
 }
 
+void run_caffeine_experiments(Tensor<double>& tevv, Tensor<double>& teoo, Tensor<double>& teov) {
+    int tile_size = scaling_factor;
+    if (fork() == 0) {
+        //Tensor<double> tevv = Tensor<double>("./guanine_data/TEvv.tns", true);
+        //tevv._infer_dimensionality();
+        //tevv._infer_shape();
+        //Tensor<double> teoo = Tensor<double>("./guanine_data/TEoo.tns", true);
+        //teoo._infer_dimensionality();
+        //teoo._infer_shape();
+        std::cout << "Time for TEvv * TEoo " << std::endl;
+        std::chrono::high_resolution_clock::time_point t1 =
+            std::chrono::high_resolution_clock::now();
+        //ListTensor<double> result = tevv.parallel_tile2d_outer_multiply<double>(
+        //    teoo, CoOrdinate({0}), CoOrdinate({0}), tile_size);
+        ListTensor<double> result = tevv.parallel_tile2d_outer_multiply<double>(
+            teoo, CoOrdinate({2}), CoOrdinate({2}), tile_size);
+        std::chrono::high_resolution_clock::time_point t2 =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> time_span =
+            std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "vvoo time : " << time_span.count() << " seconds."
+                  << std::endl;
+        exit(0);
+    } else {
+        int stat;
+        wait(&stat);
+    }
+    if (fork() == 0) {
+        //Tensor<double> tevv = Tensor<double>("./guanine_data/TEvv.tns", true);
+        //tevv._infer_dimensionality();
+        //tevv._infer_shape();
+        //Tensor<double> teov = Tensor<double>("./guanine_data/TEov.tns", true);
+        //std::cout << "Time for TEvv * TEov " << std::endl;
+        //teov._infer_dimensionality();
+        //teov._infer_shape();
+        std::chrono::high_resolution_clock::time_point t1 =
+            std::chrono::high_resolution_clock::now();
+        ListTensor<double> result = tevv.parallel_tile2d_outer_multiply<double>(
+            teov, CoOrdinate({2}), CoOrdinate({2}), tile_size);
+        std::chrono::high_resolution_clock::time_point t2 =
+            std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> time_span =
+            std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "vvov time : " << time_span.count() << " seconds."
+                  << std::endl;
+        exit(0);
+    } else {
+        int stat;
+        wait(&stat);
+    }
+}
+
 int main() {
 
-  std::vector<float> tile_scaling_factors = {1,    5,     25, 125, 625, 78125, 390625};
-  //std::vector<float> tile_scaling_factors = {0.25, 1, 4, 16, 64, 256, 1024, 4096};
+  //std::vector<float> tile_scaling_factors = {0.04, 0.2, 1, 5, 25, 125, 625, 78125, 390625};
+  std::vector<float> tile_scaling_factors = {32, 64, 128, 256, 512, 1024, 2048, 4096, 8192};
+  //std::vector<float> tile_scaling_factors = {16384, 32768, 65536, 131072, 262144, 524288};
 
   //std::vector<float> tile_scaling_factors = {125, 625, 78125, 390625};
   //std::vector<float> tile_scaling_factors = {3125,
@@ -690,12 +742,24 @@ int main() {
   //                                           static_cast<float>(48828125),
   //                                           static_cast<float>(244140625)};
   //std::vector<float> tile_scaling_factors = {125};
+
+  //Tensor<double> tevv = Tensor<double>("./guanine_data/TEvv.tns", true);
+  //tevv._infer_dimensionality();
+  //tevv._infer_shape();
+  //Tensor<double> teov = Tensor<double>("./guanine_data/TEov.tns", true);
+  //teov._infer_dimensionality();
+  //teov._infer_shape();
+  //Tensor<double> teoo = Tensor<double>("./guanine_data/TEoo.tns", true);
+  //teoo._infer_dimensionality();
+  //teoo._infer_shape();
   for (auto s : tile_scaling_factors) {
     scaling_factor = s;
     std::cout << "Scaling factor: " << scaling_factor << std::endl;
     //run_dlpno_experiments();
+    //run_caffeine_experiments(tevv, teoo, teov);
     run_frostt_experiments();
   }
+  //run_caffeine_experiments();
   //run_frostt_experiments();
   //run_dlpno_experiments();
   //frostt_nnz_estimate();

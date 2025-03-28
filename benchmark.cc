@@ -45,7 +45,8 @@ std::map<std::string, std::vector<float>> averages_per_tensor;
 //
 
 void make_frostt_signatures(std::vector<int>& tile_sizes) {
-  std::string prefix = "/media/saurabh/New Volume1/ubuntu_downloads/frostt/";
+  //std::string prefix = "/media/saurabh/New Volume1/ubuntu_downloads/frostt/";
+  std::string prefix = "/home/hunter/work/frostt";
   Tensor<double> frostt = Tensor<double>(prefix + "/nips.tns", true);
   frostt._infer_dimensionality();
   frostt._infer_shape();

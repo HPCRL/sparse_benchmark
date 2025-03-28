@@ -7,3 +7,6 @@
 [submodule "sparse_opcount"]
 	path = sparse_opcount
 	url = https://github.com/HPCRL/sparse_opcount.git
+[submodule "taskflow"]
+	path = taskflow
+	url = https://github.com/taskflow/taskflow.git

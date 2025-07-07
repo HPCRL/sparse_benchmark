@@ -23,6 +23,7 @@ include_directories(~/hopscotch-map ~/taskflow ~/taskflow/taskflow/ ${CMAKE_CURR
 
 add_executable(benchmark benchmark.cc)
 add_executable(tile_size_scan tile_size_scan.cc)
+add_executable(sc_ae_speedups sc_ae_speedups.cc)
 add_executable(modeling modeling.cc)
 add_executable(data_wrangling data_wrangling.cc)
 #add_executable(tests tests.cc)
@@ -32,9 +33,11 @@ target_include_directories(benchmark PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/ho
 target_include_directories(data_wrangling PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount/emhash)
 target_include_directories(tile_size_scan PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount/emhash)
 target_include_directories(modeling PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount/emhash)
+target_include_directories(sc_ae_speedups PUBLIC ~/taskflow ~/taskflow/taskflow/ ~/hopscotch-map/include ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount ${CMAKE_CURRENT_SOURCE_DIR}/sparse_opcount/emhash)
 
 # Declare dependency on the absl::strings library
 target_link_libraries(benchmark unordered_dense::unordered_dense absl::container_memory absl::hash_container_defaults absl::raw_hash_set absl::algorithm_container absl::core_headers absl::memory absl::type_traits)
 target_link_libraries(data_wrangling unordered_dense::unordered_dense absl::container_memory absl::hash_container_defaults absl::raw_hash_set absl::algorithm_container absl::core_headers absl::memory absl::type_traits)
 target_link_libraries(tile_size_scan unordered_dense::unordered_dense absl::container_memory absl::hash_container_defaults absl::raw_hash_set absl::algorithm_container absl::core_headers absl::memory absl::type_traits)
 target_link_libraries(modeling unordered_dense::unordered_dense absl::container_memory absl::hash_container_defaults absl::raw_hash_set absl::algorithm_container absl::core_headers absl::memory absl::type_traits)
+target_link_libraries(sc_ae_speedups unordered_dense::unordered_dense absl::container_memory absl::hash_container_defaults absl::raw_hash_set absl::algorithm_container absl::core_headers absl::memory absl::type_traits)

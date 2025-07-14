@@ -1,5 +1,5 @@
-#include "sparse_opcount/contract.hpp"
-#include "sparse_opcount/read.hpp"
+#include "fastcc/contract.hpp"
+#include "fastcc/read.hpp"
 #include <chrono>
 #include <iostream>
 #include <sys/resource.h>

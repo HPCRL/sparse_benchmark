@@ -7,3 +7,6 @@
 [submodule "taskflow"]
 	path = taskflow
 	url = https://github.com/taskflow/taskflow.git
+[submodule "fastcc"]
+	path = fastcc
+	url = git@github.com:HPCRL/fastcc.git

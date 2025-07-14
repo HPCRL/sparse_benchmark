@@ -4,9 +4,9 @@
 [submodule "hopscotch-map"]
 	path = hopscotch-map
 	url = git@github.com:Tessil/hopscotch-map.git
-[submodule "sparse_opcount"]
-	path = sparse_opcount
-    url = git@github.com:HPCRL/sparse_opcount.git
+[submodule "fastcc"]
+	path = fastcc
+    url = git@github.com:HPCRL/fastcc.git
 [submodule "taskflow"]
 	path = taskflow
 	url = https://github.com/taskflow/taskflow.git

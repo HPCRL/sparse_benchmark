@@ -10,3 +10,6 @@
 [submodule "fastcc"]
 	path = fastcc
 	url = git@github.com:HPCRL/fastcc.git
+[submodule "HiParTI"]
+	path = HiParTI
+	url = https://github.com/pnnl/HiParTI.git

@@ -1,4 +1,2 @@
 #!/bin/bash
-curl --output tensors.tar.gz https://zenodo.org/records/15891225/files/fastcc_tensors.tar.gz?download=1
-
-tar -xvzf tensors.tar.gz
+./build/sc_ae_speedups fastcc_test_tensors/frostt fastcc_test_tensors/caffeine fastcc_test_tensors/guanine | tee fastcc_tiles.txt

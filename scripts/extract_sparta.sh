@@ -1,8 +1,4 @@
 #!/bin/bash
-
-# Usage: ./extract_metrics.sh input.txt
-# or: cat input.txt | ./extract_metrics.sh
-
 input="${1:-/dev/stdin}"  # use stdin if no argument provided
 
 # Initialize state
@@ -11,12 +7,12 @@ total=""
 
 # Read line by line
 while IFS= read -r line; do
-    # Extract tensor filename
-    if [[ $line == 1st\ tensor\ file:* ]]; then
-        tensor=$(basename "$(echo "$line" | cut -d':' -f2- | xargs)")
+    # Extract tensor name from "Tensor: ..."
+    if [[ $line == Tensor:* ]]; then
+        tensor=$(echo "$line" | cut -d':' -f2- | xargs)
     fi
 
-    # Extract total time
+    # Extract total time from "[Total time]"
     if [[ $line == \[Total\ time\]* ]]; then
         total=$(echo "$line" | awk '{print $3}')
         

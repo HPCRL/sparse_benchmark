@@ -141,66 +141,66 @@ void run_frostt_experiments(std::vector<int> tile_sizes, std::ostream& out, std:
         double time_taken = 0.0;
         // nips experiments
         std::cout << "Running nips tensor" << std::endl;
-        time_taken = make_a_run(nips, "NIPS 2", CoOrdinate({2}), s * 1024, false);
-        std::cout<<"Time taken for NIPS 2: " << time_taken << " seconds at tile size " << s * 1024 << std::endl;
+        time_taken = make_a_run(nips, "NIPS-2", CoOrdinate({2}), s * 1024, false);
+        std::cout<<"Time taken for NIPS-2: " << time_taken << " seconds at tile size " << s * 1024 << std::endl;
         minimum_times[0] = time_taken != -1.0 ? std::min(minimum_times[0], time_taken) : minimum_times[0];
-        time_taken = make_a_run(nips, "NIPS 2 3", CoOrdinate({2, 3}), s * 1024, false);
-        std::cout<<"Time taken for NIPS 2 3: " << time_taken << " seconds at tile size " << s * 1024 << std::endl;
+        time_taken = make_a_run(nips, "NIPS-23", CoOrdinate({2, 3}), s * 1024, false);
+        std::cout<<"Time taken for NIPS-23: " << time_taken << " seconds at tile size " << s * 1024 << std::endl;
         minimum_times[1] = time_taken != -1.0 ? std::min(minimum_times[1], time_taken) : minimum_times[1];
-        time_taken = make_a_run(nips, "NIPS 0 1 3", CoOrdinate({0, 1, 3}), s, true);
-        std::cout<<"Time taken for NIPS 0 1 3: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(nips, "NIPS-013", CoOrdinate({0, 1, 3}), s, true);
+        std::cout<<"Time taken for NIPS-013: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[2] = time_taken != -1.0 ? std::min(minimum_times[2], time_taken) : minimum_times[2];
 
         ////////////// chicago experiments
         std::cout << "Running chicago tensor" << std::endl;
-        time_taken = make_a_run(chicago, "Chicago 0", CoOrdinate({0}), s, true);
-        std::cout<<"Time taken for Chicago 0: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(chicago, "Chicago-0", CoOrdinate({0}), s, true);
+        std::cout<<"Time taken for Chicago-0: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[3] = time_taken != -1.0 ? std::min(minimum_times[3], time_taken) : minimum_times[3];
-        time_taken = make_a_run(chicago, "Chicago 0 1", CoOrdinate({0, 1}), s, true);
-        std::cout<<"Time taken for Chicago 0 1: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(chicago, "Chicago-01", CoOrdinate({0, 1}), s, true);
+        std::cout<<"Time taken for Chicago-01: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[4] = time_taken != -1.0 ? std::min(minimum_times[4], time_taken) : minimum_times[4];
-        time_taken = make_a_run(chicago, "Chicago 1 2 3", CoOrdinate({1, 2, 3}), s, true);
-        std::cout<<"Time taken for Chicago 1 2 3: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(chicago, "Chicago-123", CoOrdinate({1, 2, 3}), s, true);
+        std::cout<<"Time taken for Chicago-123: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[5] = time_taken != -1.0 ? std::min(minimum_times[5], time_taken) : minimum_times[5];
 
         //////////////// vast-3d experiments
         std::cout << "Running vast-5d tensor" << std::endl;
-        time_taken = make_a_run(vast, "Vast 0 1", CoOrdinate({0, 1}), s, true);
-        std::cout<<"Time taken for Vast 0 1: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(vast, "Vast-5d-01", CoOrdinate({0, 1}), s, true);
+        std::cout<<"Time taken for Vast-5d-01: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[6] = time_taken != -1.0 ? std::min(minimum_times[6], time_taken) : minimum_times[6];
-        time_taken = make_a_run(vast, "Vast 0 1 4", CoOrdinate({0, 1, 4}), s, true);
-        std::cout<<"Time taken for Vast 0 1 4: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(vast, "Vast-5d-014", CoOrdinate({0, 1, 4}), s, true);
+        std::cout<<"Time taken for Vast-5d-014: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[7] = time_taken != -1.0 ? std::min(minimum_times[7], time_taken) : minimum_times[7];
 
         /////////////////// uber experiments
         std::cout << "Running uber tensor" << std::endl;
-        time_taken = make_a_run(uber, "Uber 0 2", CoOrdinate({0, 2}), s, true);
-        std::cout<<"Time taken for Uber 0 2: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(uber, "Uber-02", CoOrdinate({0, 2}), s, true);
+        std::cout<<"Time taken for Uber-02: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[8] = time_taken != -1.0 ? std::min(minimum_times[8], time_taken) : minimum_times[8];
-        time_taken = make_a_run(uber, "Uber 1 2 3", CoOrdinate({1, 2, 3}), s, true);
-        std::cout<<"Time taken for Uber 1 2 3: " << time_taken << " seconds at tile size " << s << std::endl;
+        time_taken = make_a_run(uber, "Uber-123", CoOrdinate({1, 2, 3}), s, true);
+        std::cout<<"Time taken for Uber-123: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[9] = time_taken != -1.0 ? std::min(minimum_times[9], time_taken) : minimum_times[9];
   }
-  out << "NIPS 2"
-      << "," << minimum_times[0] << std::endl;
-  out << "NIPS 2 3"
-      << "," << minimum_times[1] << std::endl;
-  out << "NIPS 0 1 3"
-      << "," << minimum_times[2] << std::endl;
-  out << "Chicago 0"
+  out << "Chicago-0"
       << "," << minimum_times[3] << std::endl;
-  out << "Chicago 0 1"
+  out << "Chicago-01"
       << "," << minimum_times[4] << std::endl;
-  out << "Chicago 1 2 3"
+  out << "Chicago-123"
       << "," << minimum_times[5] << std::endl;
-  out << "Vast 0 1"
+  out << "Vast-5d-01"
       << "," << minimum_times[6] << std::endl;
-  out << "Vast 0 1 4"
+  out << "Vast-5d-014"
       << "," << minimum_times[7] << std::endl;
-  out << "Uber 0 2"
+  out << "Uber-02"
       << "," << minimum_times[8] << std::endl;
-  out << "Uber 1 2 3"
+  out << "Uber-123"
       << "," << minimum_times[9] << std::endl;
+  out << "NIPS-2"
+      << "," << minimum_times[0] << std::endl;
+  out << "NIPS-23"
+      << "," << minimum_times[1] << std::endl;
+  out << "NIPS-013"
+      << "," << minimum_times[2] << std::endl;
 }
 
 void run_chemistry_experiments(std::vector<int> tile_sizes, std::ostream &out,
@@ -223,64 +223,64 @@ void run_chemistry_experiments(std::vector<int> tile_sizes, std::ostream &out,
   for (auto s : tile_sizes) {
         double time_taken = 0.0;
         ///////////// caffeine experiments
-        std::cout << "Running caffeine VVOO" << std::endl;
+        std::cout << "Running caffeine-vvoo" << std::endl;
         time_taken = run_a_times_b(tevv_caffeine, teoo_caffeine,
                                    CoOrdinate({2}), s, true);
-        std::cout << "Time taken for caffeine VVOO: " << time_taken
+        std::cout << "Time taken for caffeine-vvoo: " << time_taken
                   << " seconds at tile size " << s << std::endl;
         minimum_times[0] = time_taken != -1.0
                                ? std::min(minimum_times[0], time_taken)
                                : minimum_times[0];
         time_taken = run_a_times_b(teov_caffeine, teov_caffeine,
                                    CoOrdinate({2}), s, true);
-        std::cout << "Time taken for caffeine OVOV: " << time_taken
+        std::cout << "Time taken for caffeine-ovov: " << time_taken
                   << " seconds at tile size " << s << std::endl;
         minimum_times[1] = time_taken != -1.0
                                ? std::min(minimum_times[1], time_taken)
                                : minimum_times[1];
         time_taken = run_a_times_b(tevv_caffeine, teov_caffeine,
                                    CoOrdinate({2}), s, true);
-        std::cout << "Time taken for caffeine VVOV: " << time_taken
+        std::cout << "Time taken for caffeine-vvov: " << time_taken
                   << " seconds at tile size " << s << std::endl;
         minimum_times[2] = time_taken != -1.0
                                ? std::min(minimum_times[2], time_taken)
                                : minimum_times[2];
 
-        std::cout << "Running guanine VVOO" << std::endl;
+        std::cout << "Running guanine-vvoo" << std::endl;
         time_taken =
             run_a_times_b(tevv_guanine, teoo_guanine, CoOrdinate({2}), s, true);
-        std::cout << "Time taken for guanine VVOO: " << time_taken
+        std::cout << "Time taken for guanine-vvoo: " << time_taken
                   << " seconds at tile size " << s << std::endl;
         minimum_times[3] = time_taken != -1.0
                                ? std::min(minimum_times[3], time_taken)
                                : minimum_times[3];
         time_taken =
             run_a_times_b(teov_guanine, teov_guanine, CoOrdinate({2}), s, true);
-        std::cout << "Time taken for guanine OVOV: " << time_taken
+        std::cout << "Time taken for guanine-ovov: " << time_taken
                   << " seconds at tile size " << s << std::endl;
         minimum_times[4] = time_taken != -1.0
                                ? std::min(minimum_times[4], time_taken)
                                : minimum_times[4];
         time_taken =
             run_a_times_b(tevv_guanine, teov_guanine, CoOrdinate({2}), s, true);
-        std::cout << "Time taken for guanine VVOV: " << time_taken
+        std::cout << "Time taken for guanine-vvov: " << time_taken
                   << " seconds at tile size " << s << std::endl;
         minimum_times[5] = time_taken != -1.0
                                ? std::min(minimum_times[5], time_taken)
                                : minimum_times[5];
   }
 
-  out << "caffeine VVOO"
+  out << "caffeine-vvoo"
       << "," << minimum_times[0] << std::endl;
-  out << "caffeine OVOV"
+  out << "caffeine-ovov"
       << "," << minimum_times[1] << std::endl;
-  out << "caffeine VVOV"
+  out << "caffeine-vvov"
       << "," << minimum_times[2] << std::endl;
-  out << "guanine VVOO"
+  out << "guanine-vvoo"
       << "," << minimum_times[3] << std::endl;
-  out << "guanine OVOV"
+  out << "guanine-ovov"
       << "," << minimum_times[4] << std::endl;
-  out << "guanine VVOV"
+  out << "guanine-vvov"
       << "," << minimum_times[5] << std::endl;
 }
 
@@ -289,16 +289,17 @@ int main(int argc, char** argv) {
         std::cerr << "Usage: " << argv[0] << " <<path to folder containing frostt tensors>> <<path to folder containing caffeine tensors>> <<path to folder containing guanine tensors>>" << std::endl;
         return 1;
     }
+    std::vector<int> grid_sizes = {128, 256, 512};
     std::string frostt_dir = argv[1], caffeine_dir = argv[2], guanine_dir = argv[3];
     std::ofstream results_chem, results_frostt;
-    results_chem.open("chemistry_times.csv");
-    results_chem << "Tensor mode,time" << std::endl;
-    std::vector<int> grid_sizes = {128, 256, 512};
-    run_chemistry_experiments(grid_sizes, results_chem, caffeine_dir, guanine_dir);
-    results_chem.close();
     results_frostt.open("frostt_times.csv");
-    results_frostt << "Tensor mode,tile_size,acc_type,time" << std::endl;
+    results_frostt << "tensor, time" << std::endl;
     run_frostt_experiments(grid_sizes, results_frostt, frostt_dir);
     results_frostt.close();
+    results_chem.open("chemistry_times.csv");
+    results_chem << "tensor, time" << std::endl;
+    run_chemistry_experiments(grid_sizes, results_chem, caffeine_dir, guanine_dir);
+    results_chem.close();
+
     return 0;
 }

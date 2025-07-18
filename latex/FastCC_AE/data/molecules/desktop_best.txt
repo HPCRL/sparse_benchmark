@@ -1,0 +1,7 @@
+tensor speedup
+Caffeine-ovov 7.212
+Caffeine-vvoo 2.65
+Caffeine-vvov 10.925
+Guanine-ovov 3.402
+Guanine-vvoo 3.18
+Guanine-vvov 7.21

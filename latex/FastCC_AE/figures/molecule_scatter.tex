@@ -1,0 +1,51 @@
+\begin{subfigure}{\columnwidth}
+\pgfplotstableread[col sep=comma,]{data/molecule_scatter.txt}\datatable
+\begin{tikzpicture}
+\begin{axis}[
+    moleculeScatterPlot,
+    %xticklabels from table={\datatable}{Bytes},
+    xmode=log,
+    ymode=log,
+    legend to name=moleculeScatterLegend,
+    legend columns = 3,
+    legend style={font=\small},
+    ]
+
+
+
+    %Caffeine-vvoo
+    \addplot[NIPS013] table [x=tile, y=Caffeine-vvoo]{\datatable};
+    \addlegendentry{Caffeine-vvoo}
+
+    %Caffeine-vvov
+    \addplot[Chicago0] table [x=tile, y=Caffeine-vvov]{\datatable};
+    \addlegendentry{Caffeine-vvov}
+
+    %Caffeine-ovov
+    \addplot[Chicago01] table [x=tile, y=Caffeine-ovov]{\datatable};
+    \addlegendentry{Caffeine-ovov}
+
+    %Guanine-vvoo
+    \addplot[Chicago123] table [x=tile, y=Guanine-vvoo]{\datatable};
+    \addlegendentry{Guanine-vvoo}
+
+    %Guanine-vvov
+    \addplot[Vast01] table [x=tile, y=Guanine-vvov]{\datatable};
+    \addlegendentry{Guanine-vvov}
+
+    %Guanine-ovov
+    \addplot[Vast014] table [x=tile, y=Guanine-ovov]{\datatable};
+    \addlegendentry{Guanine-ovov}
+
+
+
+\end{axis}
+\end{tikzpicture}
+
+
+\caption{Execution time variation with tile size: quantum chemistry}
+\label{fig:frostt_u}
+\label{fig:dlpno_u}
+\label{fig:molecule_scatter_subfig}
+
+\end{subfigure}

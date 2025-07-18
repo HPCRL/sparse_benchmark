@@ -1,0 +1,10 @@
+\begin{abstract}
+
+Sparse tensor contractions are a core computational primitive in scientific computing and machine learning. 
+Effective optimization of such contractions through loop permutation/tiling remains an open challenge.
+Our work perform the first comprehensive comparative analysis of data access costs and memory requirements for loop permutations for sparse tensor contractions. Based on these insights, we develop FaSTCC, a novel hashing-based parallel implementation of sparse tensor contractions. FaSTCC introduces a new 2D tiled contraction-index-outer scheme and a corresponding tile-aware design. Using probabilistic modeling, our approach automatically chooses between dense and sparse output tile accumulators and selects suitable tile size. We evaluate FaSTCC across two CPU platforms and a range of real-world workloads, demonstrating significant speedups on benchmarks from FROSTT and from quantum chemistry.
+
+%remains a challenge. Existing frameworks like TACO and Sparta are limited by their reliance on fixed loop orders and lack of loop tiling. In this work, we present \ourtool, a high-performance sparse tensor contraction library that explores all three loop orderings and introduces a novel 2D tiled contraction-index-outer scheme. By combining this loop order with a tile-aware design and a model-driven selection of dense or sparse accumulators, \ourtool achieves significant performance gains over the state of the art. We evaluate FaSTCC across two CPU platforms and a range of real-world tensor workloads, demonstrating speedups of up to $11\times$ on benchmarks from FROSTT and quantum chemistry.
+
+% Sparse tensor contractions (SpTCs), a generalization of matrix multiplication, are critical in applications such as machine learning, quantum chemistry and physics. ...
+\end{abstract}

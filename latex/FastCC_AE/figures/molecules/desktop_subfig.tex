@@ -1,0 +1,25 @@
+\begin{subfigure}{\columnwidth}
+
+\begin{tikzpicture}
+  \centering
+  \begin{axis}[
+    barChartSmall,
+    legend to name=moleculeDesktopLegend,
+    symbolic x coords={Caffeine-ovov, Caffeine-vvoo, Caffeine-vvov, Guanine-ovov, Guanine-vvoo, Guanine-vvov},
+    enlarge x limits=0.15,
+    ]
+
+
+    %BETA OuroborosPVA OuroborosCS
+    \addplot[draw=none, OrangeBarStyle, x=tensor, y=speedup]   table {data/molecules/desktop_best.txt};
+    %\addplot[draw=none, fill=green!30, x=op, y=perf]   table {data/orkut_CUDA.txt};
+
+    \addplot[draw=none, BlueBarStyle, x=tensor, y=speedup]   table {data/molecules/desktop_model.txt};
+
+    \legend{Speedup: best tile size, Speedup: model-based size};
+  \end{axis}
+  \end{tikzpicture}
+  %Found it! was the semicolon;
+  \caption{Quantum chemistry comparison on desktop machine with 8 threads.}
+  \label{fig:moleculesDesktop}
+\end{subfigure}

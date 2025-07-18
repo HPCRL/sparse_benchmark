@@ -1,0 +1,195 @@
+\pgfplotsset{
+  barChart/.style={
+        small,
+        ybar,
+        clip=true,
+        width = \columnwidth,
+        height =.5\columnwidth,
+        bar width=0.25cm,
+        ymajorgrids, tick align=inside,
+        major grid style={draw=white},
+        % enlarge y limits={value=.1,upper},
+        enlarge x limits={0.15},
+        % x=2.5cm,
+        ymin=0.1,
+        axis x line*=bottom,
+        axis y line*=left,
+        y axis line style={opacity=0},
+        % tickwidth=0pt,
+        % enlarge x limits=true,
+        ylabel={Speedup},
+        %symbolic x coords={
+        %   init,insert,insertRange,delete,
+        %   deleteRange},
+       xtick=data,
+       legend pos = outer north east,
+       point meta=rawy,
+       nodes near coords,
+       every node near coord/.append style={rotate = 90, anchor = west, font=\scriptsize	,/pgf/number format/fixed relative,/pgf/number format/precision=2},
+        x tick label style={rotate=-35,anchor=west, yshift=-2pt}
+  }
+}
+
+\pgfplotsset{
+  barChartSmall/.style={
+        small,
+        ybar,
+        clip=true,
+        width = \columnwidth,
+        height =.4\columnwidth,
+        bar width=0.25cm,
+        ymajorgrids, tick align=inside,
+        major grid style={draw=white},
+        % enlarge y limits={value=.1,upper},
+        enlarge x limits={0.15},
+        % x=2.5cm,
+        ymin=0.1,
+        axis x line*=bottom,
+        axis y line*=left,
+        y axis line style={opacity=0},
+        % tickwidth=0pt,
+        % enlarge x limits=true,
+        ylabel={Speedup},
+        %symbolic x coords={
+        %   init,insert,insertRange,delete,
+        %   deleteRange},
+       xtick=data,
+       legend pos = outer north east,
+       point meta=rawy,
+       nodes near coords,
+       every node near coord/.append style={rotate = 90, anchor = west, font=\scriptsize	,/pgf/number format/fixed relative,/pgf/number format/precision=2},
+        x tick label style={rotate=-35,anchor=west, yshift=-2pt}
+  }
+}
+
+\pgfplotsset{
+  barChartScaling/.style={
+        small,
+        ybar,
+        clip=true,
+        width = \columnwidth,
+        height =.4\columnwidth,
+        bar width=0.25cm,
+        ymajorgrids, tick align=inside,
+        major grid style={draw=white},
+        % enlarge y limits={value=.1,upper},
+        enlarge x limits={0.15},
+        % x=2.5cm,
+        ymin=0.1,
+        axis x line*=bottom,
+        axis y line*=left,
+        y axis line style={opacity=0},
+        % tickwidth=0pt,
+        % enlarge x limits=true,
+        ylabel={Speedup},
+        %symbolic x coords={
+        %   init,insert,insertRange,delete,
+        %   deleteRange},
+       xtick=data,
+       legend pos = outer north east,
+       point meta=rawy,
+       nodes near coords,
+       every node near coord/.append style={rotate = 90, anchor = west, font=\scriptsize	,/pgf/number format/fixed relative,/pgf/number format/precision=2},
+        x tick label style={anchor=north, yshift=-2pt}
+  }
+}
+
+\pgfplotsset{
+  tacoBarChart/.style={
+        small,
+        ybar,
+        clip=true,
+        width = \columnwidth,
+        height =.4\columnwidth,
+        bar width=0.25cm,
+        ymajorgrids, tick align=inside,
+        major grid style={draw=white},
+        % enlarge y limits={value=.1,upper},
+        enlarge x limits={0.15},
+        % x=2.5cm,
+        ymin=0.1,
+        axis x line*=bottom,
+        axis y line*=left,
+        y axis line style={opacity=0},
+        % tickwidth=0pt,
+        % enlarge x limits=true,
+        ylabel={Speedup},
+        %symbolic x coords={
+        %   init,insert,insertRange,delete,
+        %   deleteRange},
+       xtick=data,
+       legend pos = outer north east,
+       point meta=rawy,
+       nodes near coords,
+       every node near coord/.append style={rotate = 90, anchor = west, font=\scriptsize	,/pgf/number format/fixed relative,/pgf/number format/precision=2},
+        x tick label style={rotate=-35,anchor=west, yshift=-2pt}
+  }
+}
+
+\pgfplotsset{
+ScatterPlot/.style={
+    small,
+    width = \columnwidth,
+    height = \columnwidth/2,
+    table/col sep=comma,
+    unbounded coords=jump,
+    xtick={32,64,128,256,362,512,724,1024,2048},
+    %enable this for rotated sizes
+    xticklabels={32,64,128,256,362,512,724,1024,2048},
+    log basis x=2,
+    x tick label style={font=\normalsize, rotate=35, anchor=east, yshift=-2pt},
+    %enable this for number 4-12 
+    %xticklabel={\pgfmathfloatparsenumber{\tick}\pgfmathprintnumber{\pgfmathresult}},
+    %xticklabels from table={\datatable}{Bytes},
+    %each nth point=2,
+    x tick label style={font=\normalsize},
+    legend pos = outer north east,
+    xlabel={Tile Size},
+    ylabel={Execution time (S)}
+    }
+}
+
+\pgfplotsset{
+moleculeScatterPlot/.style={
+    small,
+    width = \columnwidth,
+    height = \columnwidth/2,
+    table/col sep=comma,
+    unbounded coords=jump,
+    xtick={32,64,128,256,512,1024,2048},
+    %enable this for rotated sizes
+    xticklabels={32,64,128,256,512,1024,2048},
+    log basis x=2,
+    x tick label style={font=\normalsize, rotate=35, anchor=east, yshift=-2pt},
+    %enable this for number 4-12 
+    %xticklabel={\pgfmathfloatparsenumber{\tick}\pgfmathprintnumber{\pgfmathresult}},
+    %xticklabels from table={\datatable}{Bytes},
+    %each nth point=2,
+    x tick label style={font=\normalsize},
+    legend pos = outer north east,
+    xlabel={Tile Size},
+    ylabel={Execution time (S)}
+    }
+}
+
+\definecolor{lightBlue}{HTML}{9ABDDC}
+
+
+
+%NIPS-013	Chicago-0	Chicago-01	Chicago-123	Vast-5d-01	Vast-5d-014	Uber-02	Uber-123
+
+  
+
+\pgfplotsset{
+  NIPS013/.style     = {color = magenta,  mark = square*},
+  Chicago0/.style     = {color = orange,       mark = triangle*},
+  Chicago01/.style     = {color = orange,       mark = diamond*},
+  Chicago123/.style     = {color = orange,       mark = pentagon*},
+  Vast01/.style     = {color = lightBlue,       mark = square*},
+  Vast014/.style     = {color = magenta,       mark = pentagon*},
+  Uber02/.style     = {color = red,       mark = triangle*},
+  Uber123/.style     = {color = red,       mark = pentagon*},
+  RedBarStyle/.style = {fill = red},
+  OrangeBarStyle/.style = {fill = orange},
+  BlueBarStyle/.style = {fill=lightBlue},
+}

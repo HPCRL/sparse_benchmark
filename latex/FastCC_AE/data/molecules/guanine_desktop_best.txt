@@ -1,0 +1,4 @@
+tensor speedup
+ovov 3.34
+vvoo 3.26
+vvov 7.1

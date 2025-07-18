@@ -142,10 +142,10 @@ void run_frostt_experiments(std::vector<int> tile_sizes, std::ostream& out, std:
         // nips experiments
         std::cout << "Running nips tensor" << std::endl;
         time_taken = make_a_run(nips, "NIPS-2", CoOrdinate({2}), s * 1024, false);
-        std::cout<<"Time taken for NIPS-2: " << time_taken << " seconds at tile size " << s * 1024 << std::endl;
+        std::cout<<"Time taken for NIPS-2: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[0] = time_taken != -1.0 ? std::min(minimum_times[0], time_taken) : minimum_times[0];
         time_taken = make_a_run(nips, "NIPS-23", CoOrdinate({2, 3}), s * 1024, false);
-        std::cout<<"Time taken for NIPS-23: " << time_taken << " seconds at tile size " << s * 1024 << std::endl;
+        std::cout<<"Time taken for NIPS-23: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[1] = time_taken != -1.0 ? std::min(minimum_times[1], time_taken) : minimum_times[1];
         time_taken = make_a_run(nips, "NIPS-013", CoOrdinate({0, 1, 3}), s, true);
         std::cout<<"Time taken for NIPS-013: " << time_taken << " seconds at tile size " << s << std::endl;

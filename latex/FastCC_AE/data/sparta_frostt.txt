@@ -1,0 +1,11 @@
+tensor slowdown
+Chicago-0 6.15
+Chicago-01 5.31
+Chicago-123 6.165
+Vast-5d-01 1.408
+Vast-5d-014 2.07
+Uber-02 2.6
+Uber-123 3.9
+NIPS-2 3.38
+NIPS-23 1.37
+NIPS-013 6.10

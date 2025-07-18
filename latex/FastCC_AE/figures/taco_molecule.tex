@@ -1,0 +1,24 @@
+\begin{subfigure}{\columnwidth}
+
+\begin{tikzpicture}
+  \centering
+  \begin{axis}[
+    tacoBarChart,
+    symbolic x coords={Caffeine-ovov, Caffeine-vvoo, Caffeine-vvov, Guanine-ovov, Guanine-vvoo, Guanine-vvov},
+    xticklabels={Caffeine-ovov, Caffeine-vvoo, Caffeine-vvov, Guanine-ovov, Guanine-vvoo, Guanine-vvov},
+    enlarge x limits=0.15,
+    ]
+
+    %BETA OuroborosPVA OuroborosCS
+    \addplot[draw=none, BlueBarStyle, x=tensor, y=slowdown]   table {data/taco_molecule.txt};
+    \addplot[draw=none, OrangeBarStyle, x=tensor, y=slowdown]   table {data/sparta_molecule.txt};
+    %\addplot[draw=none, fill=green!30, x=op, y=perf]   table {data/orkut_CUDA.txt};
+    
+   
+
+  \end{axis}
+  \end{tikzpicture}
+  %Found it! was the semicolon;
+  \caption{Quantum chemistry benchmarks.}
+  \label{fig::tacoMolecule}
+\end{subfigure}

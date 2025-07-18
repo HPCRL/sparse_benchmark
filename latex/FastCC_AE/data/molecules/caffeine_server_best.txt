@@ -1,0 +1,4 @@
+tensor speedup
+ovov 2.84
+vvoo 4.24
+vvov 3.84

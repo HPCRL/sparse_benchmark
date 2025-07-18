@@ -1,0 +1,25 @@
+\begin{subfigure}{\columnwidth}
+
+\begin{tikzpicture}
+  \centering
+  \begin{axis}[
+    barChart,
+    legend to name=caffeineDesktopLegend,
+    symbolic x coords={ovov, vvoo, vvov},
+    enlarge x limits=0.15,
+    ]
+
+
+    %BETA OuroborosPVA OuroborosCS
+    \addplot[draw=none, OrangeBarStyle, x=tensor, y=speedup]   table {data/molecules/caffeine_desktop_best.txt};
+    %\addplot[draw=none, fill=green!30, x=op, y=perf]   table {data/orkut_CUDA.txt};
+
+    \addplot[draw=none, BlueBarStyle, x=tensor, y=speedup]   table {data/molecules/caffeine_desktop_model.txt};
+
+    \legend{Speedup: best tile size, Speedup: model-based size};
+  \end{axis}
+  \end{tikzpicture}
+  %Found it! was the semicolon;
+  \caption{Caffeine Desktop. All experiments were run with 8 threads.}
+  \label{fig:CaffeineDesktop}
+\end{subfigure}

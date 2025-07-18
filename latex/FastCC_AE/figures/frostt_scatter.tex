@@ -1,0 +1,58 @@
+\begin{subfigure}{\columnwidth}
+\pgfplotstableread[col sep=comma,]{data/main_scatter.txt}\datatable
+\begin{tikzpicture}
+\begin{axis}[
+    ScatterPlot,
+    %xticklabels from table={\datatable}{Bytes},
+    xmode=log,
+    ymode=log,
+    legend to name=frosttScatterLegend,
+    legend columns = 4,
+    legend style={font=\small},
+    ]
+
+
+    %NIPS-013	Chicago-0	Chicago-01	Chicago-123	Vast-5d-01	Vast-5d-014	Uber-02	Uber-123
+
+    \addplot[NIPS013] table [x=tile, y=NIPS-013]{\datatable};
+    \addlegendentry{NIPS-013}
+
+    \addplot[Chicago0] table [x=tile, y=Chicago-0]{\datatable};
+    \addlegendentry{Chicago-0}
+
+    \addplot[Chicago01] table [x=tile, y=Chicago-01]{\datatable};
+    \addlegendentry{Chicago-01}
+
+    \addplot[Chicago123] table [x=tile, y=Chicago-123]{\datatable};
+    \addlegendentry{Chicago-123}
+
+    \addplot[Vast01] table [x=tile, y=Vast-5d-01]{\datatable};
+    \addlegendentry{Vast-5d-01}
+
+    \addplot[Vast014] table [x=tile, y=Vast-5d-014]{\datatable};
+    \addlegendentry{Vast-5d-014}
+
+    \addplot[Uber02] table [x=tile, y=Uber-02]{\datatable};
+    \addlegendentry{Uber-02}
+
+    \addplot[Uber123] table [x=tile, y=Uber-123]{\datatable};
+    \addlegendentry{Uber-123}
+    
+    % \addplot[Cuda] table [x=Bytes, y=CUDA]{\datatable};
+    % \addlegendentry{CUDA}
+
+
+
+
+
+
+
+
+\end{axis}
+\end{tikzpicture}
+
+
+\caption{Execution time variation with tile size: FROSTT}
+\label{fig:frostt_scatter_subfig}
+
+\end{subfigure}

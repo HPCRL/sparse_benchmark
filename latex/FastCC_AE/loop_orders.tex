@@ -1,0 +1,216 @@
+\section{Analysis of Loop Orders for Sparse Tensor Contraction}
+\label{sec:looporder}
+
+% {\color{red} {\bf Expand the analysis to be more comprehensive and include tiling. We should make sure to address the following from the ICS'25 reviews:}
+% \begin{itemize}
+%     \item Incomplete Analysis: The analysis in this paper only considers the queries and data volume for the input tensors, without taking into account the accumulation from the workspace to the output tensor. While the queries and data volume of the CO method for the input tensors might be smaller than those of CI and CM, this may not hold true when considering the queries and data volume between the workspace and the output tensor.
+% \end{itemize}
+% }
+%{\color{red}Hunter: TACO doesn't appear to be mentioned in section~\ref{sec:background}.}
+
+%{\color{blue}Saday: Thanks for catching that, Hunter. We moved the TACO description to the Related Work at the end. Will delet the mention here.}
+%In Section~\ref{sec:background}, two state-of-the-art approaches for sparse tensor contraction were summarized: the TACO compiler~\cite{kjolstad-oopsla17}  and the Sparta library~\cite{liu2021sparta}. 
+
+In this section, we perform a comparative analysis of the data access costs for sparse tensor contraction for different {\em loop orders}. We first perform the analysis without considering tiling, and then in Section~\ref{sec:tile-analysis} extend the analysis for the tiled case.
+
+ 
+%(without considering specific sparse tensor representations)
+A sparse tensor contraction is shown in an abstract form in Algorithm~\ref{algo:abstract-sptc}, using the notation from Section~\ref{sec:background}.
+
+\begin{algorithm}[h]
+\DontPrintSemicolon
+\LinesNumbered
+\For{$l \in \mathbb{L}$}{
+  \For{$c \in \mathbb{C}$ with nonzero $L_{lc}$}{
+    \For{$r \in \mathbb{R}$ with nonzero $R_{rc}$}{
+      $O_{lr} \gets O_{lr} + L_{lc} \ast R_{rc}$}}}
+\caption{Abstract Sparse Tensor Contraction\label{algo:abstract-sptc}}
+\end{algorithm}
+
+%As noted earlier, the ordering of indices used to access a tensor does not affect the semantics of a tensor contraction. 
+%The abstract formulation of sparse tensor contraction can be expressed using any of the six possible permutations of the loops over $c$, $l$, and $r$.
+%The choice of tensor representations significantly impacts performance, making loop order a critical design consideration.
+
+%Since the tensor modes corresponding to external and contraction indices are explicitly identified in a tensor contraction, 
+% As discussed earlier, the relative order of indices that index a tensor does not have any significance to the semantics of a tensor contraction. 
+%For example, all of the following are mathematically equivalent: $O_{lr} = L_{lc}R_{rc}$; $O_{rl} = L_{lc}R_{rc}$; $O_{lr} = R_{rc}L_{lc}$; $O_{rl} = R_{rc}L_{lc}$. 
+% Further, the above abstract specification of sparse tensor contraction could be specified via any of the 6 possible permutations of the loops over $c$, $l$, and $r$. However, for any concrete implementation of sparse tensor contraction, the specific representations used for the tensors have strong implications on performance.  
+
+In the compressed sparse fiber (CSF) representation, tensor indices are typically ordered from left to right according to the outer-to-inner hierarchy, defining the tensor’s layout. This means that efficient element access is possible 
+only for loop orders that align with the tensor’s layout: accessing elements in non-layout-compatible order requires costly searches. In contrast, using a hash table to store sparse tensor elements allows flexible and efficient access across different loop orders, depending on how the table is indexed. 
+
+Since the roles of the two input tensors (``left'' or ``right'') are interchangeable in a contraction, only three unique loop orders need to be considered — determined by the position of the contraction index in the loop nest. Below, we examine these three loop orders and analyze their impact on data access costs in sparse tensor contractions.
+For each case, we first create appropriately indexed hash tables for the two input tensors.
+%and discuss the options for handling the accumulations for the sparse output tensor.
+
+
+% With a compressed sparse fiber (CSF) representation, the usual convention is that the left-to-right order of indexing a tensor corresponds to the outer-to-inner hierarchical representation, or {\em layout} of the tensor. With a CSF representation, only nested loop orders that match the layout-order of a tensor can be used for efficient access to tensor elements, and random access with respect to any index will require expensive search. However, by using a hash table to hold the elements of a sparse tensor, by suitably indexing the hash table, efficient tensor access for different loop orders is feasible. Of the 6 possible loop orders for sparse tensor contraction, since it is completely equivalent to label either of the two input tensors as the ``left'' or ``right'' tensor, there are only three distinct loop orders to consider, corresponding to the position of the contraction index in the nested loop order. Below, we discuss each of the three loop orders, and analyze them in terms of the implications for data access costs in performing sparse tensor contraction. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Contraction-Inner (CI) Scheme } 
+The input tensors are first placed in hash tables as follows:
+$$\mathit{HL}: \mathbb{L} \rightarrow \mathcal{P}(\mathbb{C} \times \mathbb{V})$$
+$$\mathit{HR}: \mathbb{R} \rightarrow \mathcal{P}(\mathbb{C} \times \mathbb{V})$$
+
+$\mathbb{L}$ is the set of values for the left index $l$ (assuming linearization if there are multiple left indices $l_1, l_2, \ldots$). Similarly, $\mathbb{R}$ is the set of values for the right index $r$ and $\mathbb{C}$ is the set of values for the contraction index $c$. The numeric values are from set $\mathbb{V}$. We use $\mathcal{P}(X)$ denotes the powerset of $X$. 
+
+For each possible combination of $l$ and $r$, this scheme requires the determination of the intersection of $\mathit{HL}(l)$ and $\mathit{HR}(r)$ in order to find pairs $\langle c,\mathit{lv} \rangle$ and $\langle c,\mathit{rv} \rangle$ with matching values of $c$. 
+
+\begin{algorithm}[h]
+\DontPrintSemicolon
+\LinesNumbered
+\For{$l \in \mathbb{L}$}{
+   \For{$r \in \mathbb{R}$}{
+   $\mathit{sum} \gets 0$ \;
+   $\mathit{update} \gets \mathit{false}$ \;
+   \For{$\langle c,\mathit{lv} \rangle \in \mathit{HL}(l) \wedge \langle c,\mathit{rv} \rangle \in \mathit{HR}(r) $}{
+      $\mathit{sum} \gets \mathit{sum} + \mathit{lv} \ast \mathit{rv}$ \;
+      $\mathit{update} \gets \mathit{true}$ }
+   \If{$\mathit{update}$}{$\mathit{Out}.\mathit{append}(l, r, \mathit{sum})$} } }
+\caption{Contraction-Inner (CI)\label{algo:ci}}
+\end{algorithm}
+
+%Details of efficient set intersection are not discussed below.
+%A simple solution is to represent each set as a sequence of pairs $\langle c,v \rangle$ sorted by $c$, which requires $\mathcal{O}(n\log{}n)$ cost when $\mathit{HL}$ and $\mathit{HR}$ are constructed, but has linear cost for determining the intersection. 
+With this scheme (Algorithm~\ref{algo:ci}), the output tensor is constructed element-by-element by using a scalar variable $sum$ to accumulate all contributions from matching pairs of nonzero elements from the two inputs.
+The TACO compiler \cite{kjolstad-oopsla17} can automatically synthesize efficient tensor contraction code for the CI scheme, using CSF representations of the input tensors, where the contraction index is innermost in both input tensors. This scheme is therefore also called an ``inner-inner" scheme. 
+%CSF structures allow a similar kind of index space mapping as the hashtable $\mathit{HL}: \mathbb{L} \rightarrow \mathcal{P}(\mathbb{C} \times \mathbb{V})$.
+A CSF mode order with outer mode $\mathbb{L}$ and inner mode $\mathbb{C}$ allows iteration over $l$ followed by $c$.
+In contrast to a hash table, CSF needs sorted indices in every dimension, and cannot resize dynamically. The cost of creating CSF is therefore $O(\mathit{nnz}\ast \log(\mathit{nnz}))$ where $\mathit{nnz}$ is the number of nonzero elements.
+Furthermore, to obtain a nonzero value, this approach needs lookups in $2\times n$ arrays where $n$ is the order of the tensor. 
+%Hash tables usually offer lookups in a few (up to 2 in most practical implementations) cache line loads.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Contraction-Middle (CM) Scheme} 
+\label{subsec:contraction-middle}
+The input tensors are first placed in hash tables as follows:
+$$\mathit{HL}: \mathbb{L} \rightarrow \mathcal{P}(\mathbb{C} \times \mathbb{V})$$
+$$\mathit{HR}: \mathbb{C} \rightarrow \mathcal{P}(\mathbb{R} \times \mathbb{V})$$
+
+\begin{algorithm}[h]
+\DontPrintSemicolon
+\LinesNumbered
+\For{$l \in \mathbb{L}$}{
+  $\mathit{WS} \gets \emptyset$ \;
+  \For{$\langle c,\mathit{lv} \rangle \in \mathit{HL}(l)$}{
+    \For{$\langle r,\mathit{rv} \rangle \in \mathit{HR}(c)$}{
+      $\mathit{WS}.\mathit{upsert}(r,\mathit{lv} \ast \mathit{rv})$ \; }}
+  \For{$r \in \mathit{WS}.\mathit{keys}$}{
+    $\mathit{Out}.\mathit{append}(l, r, \mathit{WS}(r))$ } }
+\caption{Contraction-Middle (CM)\label{algo:cm}}
+\end{algorithm}
+In Algorithm~\ref{algo:cm}, the contraction index iterates in the middle loop. For each index $l \in  \mathbb{L}$, all nonzero elements $L_{lc}$ with external index $l$ are extracted from the hash table $\mathit{HL}$.
+For each value $c$, 
+% from these nonzeros, 
+nonzero elements $R_{cr}$ are extracted from hash table $\mathit{HR}$ by using $c$ as the key. The product $L_{lc}R_{cr}$ is a contribution to $O_{lr}$. Accumulations to $O_{lr}$ must be performed for each extracted $R_{cr}$. This must be done for all $c$ corresponding to nonzero elements $L_{lc}$. 
+%Since the order of accumulations to the various $O_{lr}$ for different values of $c$ can be arbitrary (depends on the nonzero patterns in $R_{cr}$), 
+A workspace $\mathit{WS}$ is used for performing the accumulations to the appropriate output elements $O_{l*}$:
+$$\mathit{WS}: \mathbb{R} \rightarrow \mathbb{V} $$ Either a dense array (along with some auxiliary data structures to keep track of which elements of the workspace are updated and become nonzero) or a sparse accumulator (using a hash table) may be used for $\mathit{WS}$.
+ Update operation $\mathit{WS}.\mathit{upsert}(r,v)$ modifies the workspace as follows: if $r \notin \mathit{WS}.\mathit{keys}$, $\mathit{WS}(r)$ is set to $v$; otherwise, $v$ is added to $\mathit{WS}(r)$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Contraction-Outer (CO) Scheme} 
+The input tensors are represented as follows:
+$$\mathit{HL}: \mathbb{C} \rightarrow \mathcal{P}(\mathbb{L} \times \mathbb{V})$$
+$$\mathit{HR}: \mathbb{C} \rightarrow \mathcal{P}(\mathbb{R} \times \mathbb{V})$$
+In addition, a 2D workspace is used: 
+$$\mathit{WS}: (\mathbb{L} \times \mathbb{R}) \rightarrow \mathbb{V} $$
+The workspace $\mathit{WS}$ has keys that are pairs $\langle l, r \rangle \in \mathbb{L} \times \mathbb{R}$.
+
+\begin{algorithm}[h]
+\DontPrintSemicolon
+\LinesNumbered
+$\mathit{WS} \gets \emptyset$ \;
+\For{$c \in \mathbb{C}$}{
+  \For{$\langle l,\mathit{lv} \rangle \in \mathit{HL}(c)$}{
+    \For{$\langle r,\mathit{rv} \rangle \in \mathit{HR}(c)$}{
+      $\mathit{WS}.\mathit{upsert}(l,r,\mathit{lv} \ast \mathit{rv})$ \; } }}
+\For{$\langle l, r \rangle \in \mathit{WS}.\mathit{keys}$}{
+    $\mathit{Out}.\mathit{append}(l, r, \mathit{WS}(l,r))$ } 
+
+\caption{Contraction-Outer (CO)\label{algo:co}}
+\end{algorithm}
+
+The CO scheme in Agorithm~\ref{algo:co} has the contraction index as the outer loop. Both input tensors have their nonzero elements inserted into hash tables $\mathit{HL}(c)$ and $\mathit{HR}(c)$, indexed by the contraction index. For each value $c$ of the contraction index that has nonzero elements in both $\mathit{HL}(c)$ and $\mathit{HR}(c)$, the product of each $L_{cl}$ and $R_{cr}$ must be formed and accumulated for output element $O_{lr}$. The workspace $\mathit{WS}$ is used to perform the accumulations. Operation $\mathit{WS}.\mathit{upsert}(l,r,v)$ updates the workspace as expected: if $(l,r) \notin \mathit{WS}.\mathit{keys}$, $\mathit{WS}(l,r)$ is set to $v$; otherwise, $v$ is added to $\mathit{WS}(l,r)$.
+
+\subsection{Comparative Analysis of Loop Orders}
+We next compare the three schemes with respect to data access costs. For this analysis, we assume a dense workspace for performing accumulations for output tensor elements. For the output tensor, the number of accumulation operations is identical for all three schemes, and the main difference is the size of the workspace (which may in turn affect data access cost, if a small workspace can fit within cache but a large workspace requires DRAM accesses).\\ 
+%However, for the input tensors, the three loop orders have very different reuse factors for the input data elements. We contrast two key metrics for the three loop orders.\\
+\noindent{\bf Data Access for Input Tensors:} The input tensors are stored and accessed from hash tables. Each query incurs the cost of generating a hash value from the key and an access into the hash table to determine if the key exists. The payload for a successful query is not uniform, being directly proportional to the number of nonzero elements in the accessed slices of the tensor. We therefore separately quantify the number of hash table queries and the total volume (number of nonzero elements) of data retrieved over the full execution of the sparse tensor contraction. 
+%\pp{Is $2C$ slice correct?}
+%{\color{blue} Saday: I removed the $2C$.}
+
+\noindent{\bf CI:} The CI scheme (Algorithm~\ref{algo:ci}) computes the sparse inner product between every pair of left tensor slice $l \in  \mathbb{L}$ and right tensor slice  $r \in \mathbb{R}$. Thus, $O(L \times R)$ queries to the input hash tables are required, where $L$ and $R$ are the extents of the respective index spaces of $\mathbb{L}$ and $\mathbb{R}$. For each such pair of slices from the left tensor and the right tensor, their nonzero elements must be co-iterated to find elements with matching values of the contraction index $c$. This is done efficiently if the nonzero elements are sorted in increasing value of $c$, but even so the volume of data access is very high: each slice of the right tensor must be accessed for each slice of the left tensor, with a total volume of $O(L \times \mathit{nnz}_R)$, and similarly a volume of $O(R \times \mathit{nnz}_L)$ for the left tensor, where $\mathit{nnz}_L$ and $\mathit{nnz}_R$ denote the number of nonzero elements in the left and right tensor, respectively.\\
+\noindent{\bf CM:}  With the CM loop order (Algorithm~\ref{algo:cm}), for each  $l \in  \mathbb{L}$ for the left tensor, the nonzero elements $L_{lc}$ are accessed, along with queries to slices $R_{cr}$ from the right tensor. The number of queries to the left tensor is $L$. Since each nonzero element in $L$ causes a query to the right tensor, the total number of queries to the right tensor is $\mathit{nnz}_L$. The volume of data accessed for the left tensor is $\mathit{nnz}_L$ because each nonzero element in the tensor is accessed once. Each element $R_{cr}$ of the right tensor will be extracted for every nonzero $L_{cl}$. Therefore the total volume of data accessed for the right tensor is $\sum_{c \in \mathbb{C}}{\mathit{nnz}_L(c) \times \mathit{nnz}_R(c)}$, where $\mathit{nnz}_L(c)$ and $\mathit{nnz}_R(c)$ denote the number of nonzero elements is the slices of the tensors for contraction index $c$. This sum can be approximated as $\frac{\mathit{nnz}_L}{C} \times \sum_{c \in \mathbb{C}} \mathit{nnz}_R(c)$ = $\frac{\mathit{nnz}_L \times \mathit{nnz}_R}{C}$.\\
+\noindent{\bf CO:} With the CO loop order (Algorithm~\ref{algo:co}), each slice $L_{c*}$ and $R_{c*}$ is only accessed once. The number of hash table queries for the input tensors is $C+C = 2C$; the data volume is $\mathit{nnz}_L + \mathit{nnz}_R$. 
+
+\noindent{\bf Data Access for Output Tensor:} For any of the loop orders, a temporary workspace must be used to accumulate contributions to nonzero output elements. While the size of the required workspace is affected by the loop order, the total number of accesses to the output workspace is independent of the loop order and equals the total number of multiply-accumulate operations.
+
+\noindent{\bf Workspace Size:} The three schemes impose very different demands on the size of the dense workspace. We quantify the space required.\\
+\noindent{\bf CI:} The output elements are processed one at a time and therefore only one scalar variable is needed for the workspace.\\
+\noindent{\bf CM:} If a dense workspace is used, a 1D array must be used, of size $\mathbb{R}$, i.e., $R$.\\
+\noindent{\bf CO:} With a dense workspace, a 2D array will be needed, whose size is the product of the ranges of  $\mathbb{L}$ and $\mathbb{R}$, i.e., $L \times R$.
+\begin{table}
+    \centering
+    \caption{Comparison of data movement and space needed}
+    \begin{tabular}{|c|c|c|c|} \hline 
+         Scheme&  Queries&  Data Volume&  Size\_Acc \\ \hline 
+         CI&  $O(L \times R)$&  $O(L \times \mathit{nnz}_R + R \times \mathit{nnz}_L)$ & $1$   \\ \hline 
+         CM&  $L+\mathit{nnz}_L$& $O(\mathit{nnz}_L + \frac{\mathit{nnz}_R \times \mathit{nnz}_L}{C})$ & $R$  \\ \hline 
+         CO& $O(2 \times C)$ & $\mathit{nnz}_L + \mathit{nnz}_R$ & $L \times R$  \\ \hline
+    \end{tabular}
+    \label{tab:compare_loop_orders}
+\end{table}
+
+From the description of the schemes for the three loop orders and the analysis above, we can observe the following trade-offs:
+\begin{itemize}
+    \item The {\em Contraction-Inner (CI)} scheme incurs the highest data access overhead because of lower reuse of data elements of the input tensors. However, the handling of the accumulations for the sparse output tensor is very straightforward and the scheme can be readily implemented for tensors of any dimensionality. 
+    %The TACO compiler~\cite{kjolstad-oopsla17} can automatically generate efficient code for the CI scheme for contracting any sparse tensors. 
+    %While our description of all schemes used hash tables to hold the input tensors, 
+    %TACO directly traverses input tensors in the CSF format (with contraction-index innermost) without needing to use any hash tables.% It requires that both input tensors inherently have the contraction-index innermost.
+    \item The {\em Contraction-Middle (CM)} scheme is much more efficient with respect to the number of queries and the volume of data movement for input tensor elements than the CI scheme. However, the handling of accumulations requires a work-space, whose size depends on the extent $R$, for a dense workspace. 
+    In the case of very sparse high-dimensional output tensors, a dense workspace may be feasible or inefficient to use
+    if the product of the mode extents corresponding to $\mathbb{R}$ is 
+    %too large to fit in memory.
+    very high. Sparta~\cite{liu2021sparta} implements the CM scheme as described in Section~\ref{sec:sparta}.
+    %It assumes both input tensors are in a COO representation and uses sorting on $L$, inserts the nonzero elements into a hash table for $R$, and uses a sparse accumulator for $O$. 
+    \item The {\em Contraction-Outer (CO)} scheme is the most efficient in terms of accesses to input tensors. However, the required size for a dense output accumulator is problematic. Furthermore, even if the dense accumulator could fit in DRAM, update operations could be very slow due to the high latency to DRAM. 
+    %We are unaware of any current sparse tensor contraction implementation that uses the CO scheme.  
+\end{itemize}
+
+%\noindent{\em In this paper, we use tiling to overcome this memory challenge and develop a tiled-CO scheme for sparse tensor contraction. Our results demonstrate that this approach outperforms the existing state-of-the-art CI (generated by TACO \cite{kjolstad-oopsla17,zhang2024compilation}) and CM (Sparta \cite{liu2021sparta}) implementations.}
+
+%{\color{red} \bf ToDo: Add text for  subsection on tiled execution}
+
+\subsection{Tiled CO Scheme}
+From the above discussion, the CO loop order has the lowest number of data accesses but faces challenges with the output workspace. This challenge can be overcome by using 2D tiling along the linearized output tensor dimensions, so that the size of the output accumulator can be controlled by the chosen tile sizes.
+\begin{algorithm}[h]
+\DontPrintSemicolon
+\LinesNumbered
+Create $\mathit{NL}$ left hash tables: $\mathit{HL_T[lt]}$\\
+Create $\mathit{NR}$ right hash tables: $\mathit{HR_T[rt]}$\\
+\For {$\mathit{lt} \gets 0$ \KwTo $\mathit{NL} - 1$}{
+\For {$\mathit{rt} \gets 0$ \KwTo $\mathit{NR} - 1$}{
+Execute\_Tiled\_CO$(\mathit{lt}, \mathit{rt})$
+%$\mathit{WS} \gets \emptyset$ \;
+%\For{$c \in \mathit{HL}_i.\mathit{keys}$}{
+% \If{$c \in \mathit{HR}_j.\mathit{keys}$}{
+%   \For{$\langle l,\mathit{lv} \rangle \in \mathit{HL}_i(c)$}{
+%     \For{$\langle r,\mathit{rv} \rangle \in \mathit{HR}_j(c)$}{ 
+%         $\mathit{WS}.\mathit{upsert}(l,r,\mathit{lv} \ast \mathit{rv})$ \;
+%}
+%}
+%}
+%}
+}
+}
+
+\caption{2D-Tiled CO scheme\label{algo:tiled-co}}
+\end{algorithm}
+
+Algorithm~\ref{algo:tiled-co} outlines the 2D-tiled CO scheme. The output tensor's index space $\mathbb{L} \times \mathbb{R}$ is partitioned into ${\mathit{NL} \ast \mathit{NR}}$ tiles, where $\mathit{NL} = \lceil|\mathbb{L}| / \mathit{T_L} \rceil$ and $\mathit{NR} = \lceil|\mathbb{R}| / \mathit{T_R} \rceil$.
+Here $\mathit{T_L}$ and $\mathit{T_R}$ are tile sizes, selected as described later in the paper.
+The elements of the left input tensor are inserted from the input COO format into $\mathit{NL}$ hash tables, where an element with index $\langle l,c\rangle$ is inserted into hash table $\mathit{HL_T[lt]}$, where $\mathit{lt} = \lfloor \frac{l}{\mathit{TL}}\rfloor$, and similarly for the right input tensor. A total of ${\mathit{NL} \times \mathit{NR}}$ parallel invocations of instances of the 2D-tiled CO algorithm are dynamically scheduled on the available cores. Details are presented in the next section.

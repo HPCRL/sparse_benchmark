@@ -1,0 +1,718 @@
+@article{taskflow,
+author = {Huang, Tsung-Wei and Lin, Dian-Lun and Lin, Chun-Xun and Lin, Yibo},
+title = {Taskflow: A Lightweight Parallel and Heterogeneous Task Graph Computing System},
+year = {2022},
+issue_date = {June 2022},
+publisher = {IEEE Press},
+volume = {33},
+number = {6},
+issn = {1045-9219},
+url = {https://doi.org/10.1109/TPDS.2021.3104255},
+doi = {10.1109/TPDS.2021.3104255},
+abstract = {Taskflow aims to streamline the building of parallel and heterogeneous applications using a lightweight task graph-based approach. Taskflow introduces an expressive task graph programming model to assist developers in the implementation of parallel and heterogeneous decomposition strategies on a heterogeneous computing platform. Our programming model distinguishes itself as a very general class of task graph parallelism with in-graph control flow to enable end-to-end parallel optimization. To support our model with high performance, we design an efficient system runtime that solves many of the new scheduling challenges arising out of our models and optimizes the performance across latency, energy efficiency, and throughput. We have demonstrated the promising performance of Taskflow in real-world applications. As an example, Taskflow solves a large-scale machine learning workload up to 29% faster, 1.5× less memory, and 1.9× higher throughput than the industrial system, oneTBB, on a machine of 40 CPUs and 4 GPUs. We have opened the source of Taskflow and deployed it to large numbers of users in the open-source community.},
+journal = {IEEE Trans. Parallel Distrib. Syst.},
+month = jun,
+pages = {1303–1320},
+numpages = {18}
+}
+
+@article{kjolstad-oopsla17,
+author = "Kjolstad, Fredrik and Kamil, Shoaib and Chou, Stephen and Lugato, David and Amarasinghe, Saman",
+title = "The tensor algebra compiler",
+year = 2017,
+volume = 1,
+number = "OOPSLA",
+url = {https://doi.org/10.1145/3133901},
+journal = "Proc. ACM on Programming Languages",
+month = oct,
+articleno = 77,
+numpages = 29,
+}
+
+@article{zhang2024compilation,
+  title={Compilation of Modular and General Sparse Workspaces},
+  author={Zhang, Genghan and Hsu, Olivia and Kjolstad, Fredrik},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={8},
+  number={PLDI},
+  pages={1213--1238},
+  year={2024},
+  publisher={ACM New York, NY, USA}
+}
+
+@misc{ahrens2024finch,
+      title={Finch: Sparse and Structured Array Programming with Control Flow}, 
+      author={Willow Ahrens and Teodoro Fields Collin and Radha Patel and Kyle Deeds and Changwan Hong and Saman Amarasinghe},
+      year={2024},
+      eprint={2404.16730},
+      archivePrefix={arXiv},
+      primaryClass={cs.MS},
+      url={https://arxiv.org/abs/2404.16730}, 
+}
+
+@inproceedings{liu2021sparta,
+  title={Sparta: High-performance, element-wise sparse tensor contraction on heterogeneous memory},
+  author={Liu, Jiawen and Ren, Jie and Gioiosa, Roberto and Li, Dong and Li, Jiajia},
+  booktitle={Proceedings of the 26th ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming},
+  pages={318--333},
+  year={2021}
+}
+
+@article{amossen2014better,
+  title={Better size estimation for sparse matrix products},
+  author={Amossen, Rasmus Resen and Campagna, Andrea and Pagh, Rasmus},
+  journal={Algorithmica},
+  volume={69},
+  pages={741--757},
+  year={2014},
+  publisher={Springer}
+}
+
+@article{cohen1998structure,
+  title={Structure prediction and computation of sparse matrix products},
+  author={Cohen, Edith},
+  journal={Journal of Combinatorial Optimization},
+  volume={2},
+  pages={307--332},
+  year={1998},
+  publisher={Springer}
+}
+
+@inproceedings{smith-csf,
+  author={Smith, Shaden and Ravindran, Niranjay and Sidiropoulos, Nicholas D. and Karypis, George},
+  booktitle={2015 IEEE International Parallel and Distributed Processing Symposium}, 
+  title={SPLATT: Efficient and parallel sparse tensor-matrix multiplication}, 
+  year={2015},
+  pages={61-70},
+}
+
+#Minimum Cost Loop Nests for Contraction of a Sparse Tensor with a Tensor Network
+@inproceedings{10.1145/3626183.3659985,
+author = {Kanakagiri, Raghavendra and Solomonik, Edgar},
+title = {Minimum Cost Loop Nests for Contraction of a Sparse Tensor with a Tensor Network},
+year = {2024},
+isbn = {9798400704161},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3626183.3659985},
+doi = {10.1145/3626183.3659985},
+abstract = {Sparse tensor decomposition and completion are common in numerous applications, ranging from machine learning to computational quantum chemistry. Typically, the main bottleneck in optimization of these models are contractions of a single large sparse tensor with a network of several dense matrices or tensors (SpTTN). Prior works on high-performance tensor decomposition and completion have focused on performance and scalability optimizations for specific SpTTN kernels. We present algorithms and a runtime system for identifying and executing the most efficient loop nest for any SpTTN kernel. We consider both enumeration of such loop nests for autotuning and efficient algorithms for finding the lowest cost loop nest for simpler metrics, such as buffer size or cache miss models. Our runtime system identifies the best choice of loop nest without user guidance, and also provides a distributed-memory parallelization of SpTTN kernels. We evaluate our framework using both real-world and synthetic tensors. Our results demonstrate that our approach outperforms available generalized state-of-the-art libraries and matches the performance of specialized codes.},
+booktitle = {Proceedings of the 36th ACM Symposium on Parallelism in Algorithms and Architectures},
+pages = {169–181},
+numpages = {13},
+keywords = {sparse tensor algebra, tensor contraction, tensor decomposition and completion},
+location = {Nantes, France},
+series = {SPAA '24}
+}
+
+#mosaic
+@article{10.1145/3591236,
+author = {Bansal, Manya and Hsu, Olivia and Olukotun, Kunle and Kjolstad, Fredrik},
+title = {Mosaic: An Interoperable Compiler for Tensor Algebra},
+year = {2023},
+issue_date = {June 2023},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {7},
+number = {PLDI},
+url = {https://doi.org/10.1145/3591236},
+doi = {10.1145/3591236},
+abstract = {We introduce Mosaic, a sparse tensor algebra compiler that can bind tensor expressions to external functions of other tensor algebra libraries and compilers. Users can extend Mosaic by adding new functions and bind a sub-expression to a function using a scheduling API. Mosaic substitutes the bound sub-expressions with calls to the external functions and automatically generates the remaining code using a default code generator. As the generated code is fused by default, users can productively leverage both fusion and calls to specialized functions within the same compiler. We demonstrate the benefits of our dual approach by showing that calling hand-written CPU and specialized hardware functions can provide speedups of up to 206\texttimes{} against fused code in some cases, while generating fused code can provide speedups of up to 3.57\texttimes{} against code that calls external functions in other cases. Mosaic also offers a search system that can automatically map an expression to a set of registered external functions. Both the explicit binding and automatic search are verified by Mosaic. Additionally, the interface for adding new external functions is simple and general. Currently, 38 external functions have been added to Mosaic, with each addition averaging 20 lines of code.},
+journal = {Proc. ACM Program. Lang.},
+month = jun,
+articleno = {122},
+numpages = {26},
+keywords = {automated search, compilation, external functions, sparse tensor algebra}
+}
+
+#TiledArray
+@misc{calvin2015taskbasedalgorithmmatrixmultiplication,
+      title={Task-Based Algorithm for Matrix Multiplication: A Step Towards Block-Sparse Tensor Computing}, 
+      author={Justus A. Calvin and Edward F. Valeev},
+      year={2015},
+      eprint={1504.05046},
+      archivePrefix={arXiv},
+      primaryClass={cs.DC},
+      url={https://arxiv.org/abs/1504.05046}, 
+}
+
+#CTF
+@article{SOLOMONIK20143176,
+title = {A massively parallel tensor contraction framework for coupled-cluster computations},
+journal = {Journal of Parallel and Distributed Computing},
+volume = {74},
+number = {12},
+pages = {3176-3190},
+year = {2014},
+note = {Domain-Specific Languages and High-Level Frameworks for High-Performance Computing},
+issn = {0743-7315},
+doi = {https://doi.org/10.1016/j.jpdc.2014.06.002},
+url = {https://www.sciencedirect.com/science/article/pii/S074373151400104X},
+author = {Edgar Solomonik and Devin Matthews and Jeff R. Hammond and John F. Stanton and James Demmel},
+keywords = {Coupled-cluster, Tensor contractions, Matrix multiplication, Topology-aware mapping, Communication-avoiding algorithms},
+abstract = {Precise calculation of molecular electronic wavefunctions by methods such as coupled-cluster requires the computation of tensor contractions, the cost of which has polynomial computational scaling with respect to the system and basis set sizes. Each contraction may be executed via matrix multiplication on a properly ordered and structured tensor. However, data transpositions are often needed to reorder the tensors for each contraction. Writing and optimizing distributed-memory kernels for each transposition and contraction is tedious since the number of contractions scales combinatorially with the number of tensor indices. We present a distributed-memory numerical library (Cyclops Tensor Framework (CTF)) that automatically manages tensor blocking and redistribution to perform any user-specified contractions. CTF serves as the distributed-memory contraction engine in Aquarius, a new program designed for high-accuracy and massively-parallel quantum chemical computations. Aquarius implements a range of coupled-cluster and related methods such as CCSD and CCSDT by writing the equations on top of a C++ templated domain-specific language. This DSL calls CTF directly to manage the data and perform the contractions. Our CCSD and CCSDT implementations achieve high parallel scalability on the BlueGene/Q and Cray XC30 supercomputer architectures showing that accurate electronic structure calculations can be effectively carried out on top of general distributed-memory tensor primitives.}
+}
+
+#FASTOR
+@article{POYA201735,
+title = {A high performance data parallel tensor contraction framework: Application to coupled electro-mechanics},
+journal = {Computer Physics Communications},
+volume = {216},
+pages = {35-52},
+year = {2017},
+issn = {0010-4655},
+doi = {https://doi.org/10.1016/j.cpc.2017.02.016},
+url = {https://www.sciencedirect.com/science/article/pii/S0010465517300681},
+author = {Roman Poya and Antonio J. Gil and Rogelio Ortigosa},
+keywords = {Tensor contraction, Data parallelism, Domain-aware expression templates, Nonlinear coupled electro-mechanics},
+abstract = {The paper presents aspects of implementation of a new high performance tensor contraction framework for the numerical analysis of coupled and multi-physics problems on streaming architectures. In addition to explicit SIMD instructions and smart expression templates, the framework introduces domain specific constructs for the tensor cross product and its associated algebra recently rediscovered by Bonet et al. (2015, 2016) in the context of solid mechanics. The two key ingredients of the presented expression template engine are as follows. First, the capability to mathematically transform complex chains of operations to simpler equivalent expressions, while potentially avoiding routes with higher levels of computational complexity and, second, to perform a compile time depth-first or breadth-first search to find the optimal contraction indices of a large tensor network in order to minimise the number of floating point operations. For optimisations of tensor contraction such as loop transformation, loop fusion and data locality optimisations, the framework relies heavily on compile time technologies rather than source-to-source translation or JIT techniques. Every aspect of the framework is examined through relevant performance benchmarks, including the impact of data parallelism on the performance of isomorphic and nonisomorphic tensor products, the FLOP and memory I/O optimality in the evaluation of tensor networks, the compilation cost and memory footprint of the framework and the performance of tensor cross product kernels. The framework is then applied to finite element analysis of coupled electro-mechanical problems to assess the speed-ups achieved in kernel-based numerical integration of complex electroelastic energy functionals. In this context, domain-aware expression templates combined with SIMD instructions are shown to provide a significant speed-up over the classical low-level style programming techniques.}
+}
+
+@article{dlpno,
+author = {Brabec, Jiri and Lang, Jakub and Saitow, Masaaki and Pittner, Jiří and Neese, Frank and Demel, Ondřej},
+title = {Domain-Based Local Pair Natural Orbital Version of Mukherjee’s State-Specific Coupled Cluster Method},
+journal = {Journal of Chemical Theory and Computation},
+volume = {14},
+number = {3},
+pages = {1370-1382},
+year = {2018},
+doi = {10.1021/acs.jctc.7b01184},
+    note ={PMID: 29345924},
+
+URL = { 
+    
+        https://doi.org/10.1021/acs.jctc.7b01184
+    
+    
+
+},
+eprint = { 
+    
+        https://doi.org/10.1021/acs.jctc.7b01184
+    
+    
+
+}
+
+}
+
+@misc{cuTensor,
+title = {cuTENSOR: A high-performance CUDA library for tensor primitives},
+author={Nvidia},
+howpublished = "\url{https://docs.nvidia.com/cuda/cutensor/index.html}",
+year={2020}
+}
+
+@article{kolda2009tensor,
+  title={Tensor decompositions and applications},
+  author={Kolda, Tamara G and Bader, Brett W},
+  journal={SIAM Review},
+  volume={51},
+  number={3},
+  pages={455--500},
+  year={2009},
+  publisher={SIAM}
+}
+@inproceedings{sparselnr,
+author = {Dias, Adhitha and Sundararajah, Kirshanthan and Saumya, Charitha and Kulkarni, Milind},
+title = {SparseLNR: accelerating sparse tensor computations using loop nest restructuring},
+year = {2022},
+isbn = {9781450392815},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3524059.3532386},
+doi = {10.1145/3524059.3532386},
+abstract = {Sparse tensor algebra computations have become important in many real-world applications like machine learning, scientific simulations, and data mining. Hence, automated code generation and performance optimizations for tensor algebra kernels are paramount. Recent advancements such as the Tensor Algebra Compiler (TACO) greatly generalize and automate the code generation for tensor algebra expressions. However, the code generated by TACO for many important tensor computations remains suboptimal due to the absence of a scheduling directive to support transformations such as distribution/fusion.This paper extends TACO's scheduling space to support kernel distribution/loop fusion in order to reduce asymptotic time complexity and improve locality of complex tensor algebra computations. We develop an intermediate representation (IR) for tensor operations called branched iteration graph which specifies breakdown of the computation into smaller ones (kernel distribution) and then fuse (loop fusion) outermost dimensions of the loop nests, while the inner-most dimensions are distributed, to increase data locality. We describe exchanges of intermediate results between space iteration spaces, transformation in the IR, and its programmatic invocation. Finally, we show that the transformation can be used to optimize sparse tensor kernels. Our results show that this new transformation significantly improves the performance of several real-world tensor algebra computations compared to TACO-generated code.},
+booktitle = {Proceedings of the 36th ACM International Conference on Supercomputing},
+articleno = {15},
+numpages = {14},
+keywords = {sparse tensor algebra, loop transformations, loop fusion, kernel distribution},
+location = {Virtual Event},
+series = {ICS '22}
+}
+
+@article{const,
+author = {Raje, Saurabh and Xu, Yufan and Rountev, Atanas and Valeev, Edward F. and Sadayappan, P.},
+title = {CoNST: Code Generator for Sparse Tensor Networks},
+year = {2024},
+issue_date = {December 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {21},
+number = {4},
+issn = {1544-3566},
+url = {https://doi.org/10.1145/3689342},
+doi = {10.1145/3689342},
+abstract = {Sparse tensor networks represent contractions over multiple sparse tensors. Tensor contractions are higher-order analogs of matrix multiplication. Tensor networks arise commonly in many domains of scientific computing and data science. Such networks are typically computed using a tree of binary contractions. Several critical inter-dependent aspects must be considered in the generation of efficient code for a contraction tree, including sparse tensor layout mode order, loop fusion to reduce intermediate tensors, and the mutual dependence of loop order, mode order, and contraction order. We propose CoNST, a novel approach that considers these factors in an integrated manner using a single formulation. Our approach creates a constraint system that encodes these decisions and their interdependence, while aiming to produce reduced-order intermediate tensors via fusion. The constraint system is solved by the Z3 SMT solver and the result is used to create the desired fused loop structure and tensor mode layouts for the entire contraction tree. This structure is lowered to the IR of the TACO compiler, which is then used to generate executable code. Our experimental evaluation demonstrates significant performance improvements over current state-of-the-art sparse tensor compiler/library alternatives.},
+journal = {ACM Trans. Archit. Code Optim.},
+month = nov,
+articleno = {82},
+numpages = {24},
+keywords = {Sparse tensors, tensor networks, tensor layout, loop fusion}
+}
+
+@article{tuowen_sparsepoly,
+author = {Zhao, Tuowen and Popoola, Tobi and Hall, Mary and Olschanowsky, Catherine and Strout, Michelle},
+title = {Polyhedral Specification and Code Generation of Sparse Tensor Contraction with Co-iteration},
+year = {2022},
+issue_date = {March 2023},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {20},
+number = {1},
+issn = {1544-3566},
+url = {https://doi.org/10.1145/3566054},
+doi = {10.1145/3566054},
+abstract = {This article presents a code generator for sparse tensor contraction computations. It leverages a mathematical representation of loop nest computations in the sparse polyhedral framework (SPF), which extends the polyhedral model to support non-affine computations, such as those that arise in sparse tensors. SPF is extended to perform layout specification, optimization, and code generation of sparse tensor code: (1) We develop a polyhedral layout specification that decouples iteration spaces for layout and computation; and (2) we develop efficient co-iteration of sparse tensors by combining polyhedra scanning over the layout of one sparse tensor with the synthesis of code to find corresponding elements in other tensors through an SMT solver.We compare the generated code with that produced by a state-of-the-art tensor compiler, TACO. We achieve on average 1.63\texttimes{} faster parallel performance than TACO on sparse-sparse co-iteration and describe how to improve that to 2.72\texttimes{} average speedup by switching the find algorithms. We also demonstrate that decoupling iteration spaces of layout and computation enables additional layout and computation combinations to be supported.},
+journal = {ACM Trans. Archit. Code Optim.},
+month = dec,
+articleno = {16},
+numpages = {26},
+keywords = {Data layout, sparse tensor contraction, polyhedral compilation, code synthesis, uninterpreted functions, index array properties}
+}
+
+@article{chi1997optimizing,
+  title={On optimizing a class of multi-dimensional loops with reduction for parallel execution},
+  author={Chi-Chung, Lam and Sadayappan, P and Wenger, Rephael},
+  journal={Parallel Processing Letters},
+  volume={7},
+  number={02},
+  pages={157--168},
+  year={1997},
+  publisher={World Scientific}
+}
+
+@article{aartbiksparse,
+author = {Bik, Aart J. C. and Brinkhaus, Peter J. H. and Knijnenburg, Peter M. W. and Wijshoff, Harry A. G.},
+title = {The automatic generation of sparse primitives},
+year = {1998},
+issue_date = {June 1998},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {24},
+number = {2},
+issn = {0098-3500},
+url = {https://doi.org/10.1145/290200.287636},
+doi = {10.1145/290200.287636},
+abstract = {Primitives in mathematical software are usually written and optimized by hand. With the implementation of a “sparse compiler” that is capable of automatically converting a dense program into sparse code, however, a completely different approach to the generation of sparse primitives can be taken. A dense implementation of a particular primitive is supplied to the sparse compiler, after which it can be converted into many different sparse versions of this primitive. Each version is specifically tailored to a class of sparse matrices having a specific nonzero structure. In this article, we discuss some of our experiences with this new approach.},
+journal = {ACM Trans. Math. Softw.},
+month = jun,
+pages = {190–225},
+numpages = {36},
+keywords = {compilers, data structure transformations, restructuring compilers, sparse BLAS, sparse matrix computations}
+}
+
+@article{Devin,
+  title={High-performance tensor contraction without transposition},
+  author={Matthews, Devin A},
+  journal={SIAM Journal on Scientific Computing},
+  volume={40},
+  number={1},
+  pages={C1--C24},
+  year={2018},
+  publisher={SIAM}
+}
+
+
+@article{ttgt,
+  title={Design of a high-performance GEMM-like tensor--tensor multiplication},
+  author={Springer, Paul and Bientinesi, Paolo},
+  journal={ACM Transactions on Mathematical Software (TOMS)},
+  volume={44},
+  number={3},
+  pages={1--29},
+  year={2018},
+  publisher={ACM New York, NY, USA}
+}
+
+
+@inproceedings{cogent,
+author = {Kim, Jinsung and Sukumaran-Rajam, Aravind and Thumma, Vineeth and Krishnamoorthy, Sriram and Panyala, Ajay and Pouchet, Louis-No\"{e}l and Rountev, Atanas and Sadayappan, P.},
+title = {A code generator for high-performance tensor contractions on GPUs},
+year = {2019},
+isbn = {9781728114361},
+publisher = {IEEE Press},
+abstract = {Tensor contractions are higher dimensional generalizations of matrix-matrix multiplication. They form the compute-intensive core of many applications in computational science and data science. In this paper, we describe a high-performance GPU code generator for arbitrary tensor contractions. It exploits domain-specific properties about data reuse in tensor contractions to devise an effective code generation schema, coupled with an effective model-driven search, to determine parameters for mapping of computation to threads and staging of data through the GPU memory hierarchy. Experimental evaluation using a set of tensor contraction benchmarks demonstrates performance improvement and/or significantly reduced code generation time over other state-of-the-art tensor contraction libraries and code generators.},
+booktitle = {Proceedings of the 2019 IEEE/ACM International Symposium on Code Generation and Optimization},
+pages = {85–95},
+numpages = {11},
+keywords = {Tensor Contractions, GPU Computing, Code Generation},
+location = {Washington, DC, USA},
+series = {CGO 2019}
+}
+
+@article{tamm,
+    author = {Mutlu, Erdal and Panyala, Ajay and Gawande, Nitin and Bagusetty, Abhishek and Glabe, Jeffrey and Kim, Jinsung and Kowalski, Karol and Bauman, Nicholas P. and Peng, Bo and Pathak, Himadri and Brabec, Jiri and Krishnamoorthy, Sriram},
+    title = {TAMM: Tensor algebra for many-body methods},
+    journal = {The Journal of Chemical Physics},
+    volume = {159},
+    number = {2},
+    pages = {024801},
+    year = {2023},
+    month = {07},
+    abstract = {Tensor algebra operations such as contractions in computational chemistry consume a significant fraction of the computing time on large-scale computing platforms. The widespread use of tensor contractions between large multi-dimensional tensors in describing electronic structure theory has motivated the development of multiple tensor algebra frameworks targeting heterogeneous computing platforms. In this paper, we present Tensor Algebra for Many-body Methods (TAMM), a framework for productive and performance-portable development of scalable computational chemistry methods. TAMM decouples the specification of the computation from the execution of these operations on available high-performance computing systems. With this design choice, the scientific application developers (domain scientists) can focus on the algorithmic requirements using the tensor algebra interface provided by TAMM, whereas high-performance computing developers can direct their attention to various optimizations on the underlying constructs, such as efficient data distribution, optimized scheduling algorithms, and efficient use of intra-node resources (e.g., graphics processing units). The modular structure of TAMM allows it to support different hardware architectures and incorporate new algorithmic advances. We describe the TAMM framework and our approach to the sustainable development of scalable ground- and excited-state electronic structure methods. We present case studies highlighting the ease of use, including the performance and productivity gains compared to other frameworks.},
+    issn = {0021-9606},
+    doi = {10.1063/5.0142433},
+    url = {https://doi.org/10.1063/5.0142433},
+    eprint = {https://pubs.aip.org/aip/jcp/article-pdf/doi/10.1063/5.0142433/18281424/024801\_1\_5.0142433.pdf},
+}
+
+
+@online{frostt_page,
+  title = {{FROSTT}: The Formidable Repository of Open Sparse Tensors and Tools},
+  author = {Smith, Shaden and Choi, Jee W. and Li, Jiajia and Vuduc, Richard and Park, Jongsoo and Liu, Xing and Karypis, George},
+  url = {http://frostt.io/tensors/file-formats.html},
+  year = {2017},
+}
+
+
+#libtensor
+@article{10.1109/HiPC.2014.7116881,
+author = {Ibrahim, Khaled and Williams, Samuel and Epifanovsky, Evgeny},
+year = {2015},
+month = {06},
+pages = {},
+title = {Analysis and tuning of libtensor framework on multicore architectures},
+journal = {2014 21st International Conference on High Performance Computing, HiPC 2014},
+doi = {10.1109/HiPC.2014.7116881}
+}
+
+#ITensor
+@Article{10.21468/SciPostPhysCodeb.4,
+	title={{The ITensor Software Library for Tensor Network Calculations}},
+	author={Matthew Fishman and Steven R. White and E. Miles Stoudenmire},
+	journal={SciPost Phys. Codebases},
+	pages={4},
+	year={2022},
+	publisher={SciPost},
+	doi={10.21468/SciPostPhysCodeb.4},
+	url={https://scipost.org/10.21468/SciPostPhysCodeb.4},
+}
+
+
+#GPU - BCB SpTC
+@article{10.1109/TPDS.2024.3477746,
+author = {Hu, Rong and Wang, Haotian and Yang, Wangdong and Ouyang, Renqiu and Li, Keqin and Li, Kenli},
+year = {2024},
+month = {12},
+pages = {1-15},
+title = {BCB-SpTC: An Efficient Sparse High-Dimensional Tensor Contraction Employing Tensor Core Acceleration},
+volume = {PP},
+journal = {IEEE Transactions on Parallel and Distributed Systems},
+doi = {10.1109/TPDS.2024.3477746}
+}
+
+#TCE
+@article{doi:10.1021/jp034596z,
+author = {Hirata, So},
+title = {Tensor Contraction Engine: Abstraction and Automated Parallel Implementation of Configuration-Interaction, Coupled-Cluster, and Many-Body Perturbation Theories},
+journal = {The Journal of Physical Chemistry A},
+volume = {107},
+number = {46},
+pages = {9887-9897},
+year = {2003},
+doi = {10.1021/jp034596z},
+URL = {https://doi.org/10.1021/jp034596z},
+eprint = {https://doi.org/10.1021/jp034596z}
+}
+
+#PPOPP paper
+@inproceedings{poster_sparta,
+author = {Feng, Guofeng and Jia, Weile and Sun, Ninghui and Tan, Guangming and Li, Jiajia},
+title = {POSTER: Optimizing Sparse Tensor Contraction with Revisiting Hash Table Design},
+year = {2024},
+isbn = {9798400704352},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3627535.3638500},
+doi = {10.1145/3627535.3638500},
+abstract = {Sparse tensor contraction (SpTC) serves as an essential operation in high-performance applications. The high dimensionality of sparse tensors makes SpTC fundamentally challenging in aspects such as costly multidimensional index search, extensive intermediate output data, and indirect addressing. Previous state-of-the-art work addresses some of these challenges through hash-table implementation. In this paper, we propose a hash-table based and fully optimized SpTC by providing a more carefully designed customized hash table design, proposing an architecture-aware algorithm for hash table selection with size prediction, applying cross-stage optimizations to exploit shared information and avoid redundant operations. Evaluating on a set of tensors extracted from the real world, our method can achieve superior speedup and reduce the memory footprint substantially compared to the current state-of-the-art work.},
+booktitle = {Proceedings of the 29th ACM SIGPLAN Annual Symposium on Principles and Practice of Parallel Programming},
+pages = {457–459},
+numpages = {3},
+keywords = {sparse tensor contraction, hash table},
+location = {Edinburgh, United Kingdom},
+series = {PPoPP '24}
+}
+
+@online{FROSTT,
+  title = {{FROSTT}: The Formidable Repository of Open Sparse Tensors and Tools},
+  author = {Smith, Shaden and Choi, Jee W. and Li, Jiajia and Vuduc, Richard and Park, Jongsoo and Liu, Xing and Karypis, George},
+  url = {http://frostt.io/},
+  year = {2017},
+}
+
+@misc{TACO_Url,
+  key = "TACO",
+  title = {{TACO}: The Tensor Algebra Compiler},
+  url = {http://tensor-compiler.org/},
+} 
+#taco-original
+@inproceedings{kjolstad:2017:tools, 
+  author={Kjolstad, Fredrik and Chou, Stephen and Lugato, David and Kamil, Shoaib and Amarasinghe, Saman}, 
+  booktitle={2017 32nd IEEE/ACM International Conference on Automated Software Engineering (ASE)}, 
+  title={taco: A Tool to Generate Tensor Algebra Kernels}, 
+  year={2017}, 
+  pages={943-948}, 
+  keywords={data analysis;learning (artificial intelligence);mathematics computing;program compilers;software libraries;tensors;code generation tool;code generator;command-line tools;compressed formats;computational abstraction;data analytics;dense kernels;machine learning;mixed kernels;physical sciences;sparse kernels;taco web;tensor algebra expressions;tensor algebra kernels;tensor expressions;Indexes;Kernel;Libraries;Linear algebra;Tensile stress;Tools;Tensor algebra;compiler;linear algebra;sparse}, 
+  doi={10.1109/ASE.2017.8115709}, 
+  month={Oct}
+}
+
+@InProceedings{COMET:LLVM-HPC-2021,
+      author={Tian, Ruiqin and Guo, Luanzheng and Li, Jiajia and Ren, Bin and Kestor, Gokcen},
+      booktitle={2021 IEEE/ACM 7th Workshop on the LLVM Compiler Infrastructure in HPC (LLVM-HPC)}, 
+      title={A High Performance Sparse Tensor Algebra Compiler in MLIR}, 
+      year={2021},
+      pages={27-38},
+      doi={10.1109/LLVMHPC54804.2021.00009}
+   }
+
+@inproceedings{COMET:erdal,
+author = {Mutlu, Erdal and Tian, Ruiqin and Ren, Bin and Krishnamoorthy, Sriram and Gioiosa, Roberto and Pienaar, Jacques and Kestor, Gokcen},
+title = {COMET: A Domain-Specific Compilation of High-Performance Computational Chemistry},
+year = {2020},
+isbn = {978-3-030-95952-4},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+url = {https://doi.org/10.1007/978-3-030-95953-1_7},
+doi = {10.1007/978-3-030-95953-1_7},
+abstract = {The computational power increases over the past decades have greatly enhanced the ability to simulate chemical reactions and understand ever more complex transformations. Tensor contractions are the fundamental computational building block of these simulations. These simulations have often been tied to one platform and restricted in generality by the interface provided to the user. The expanding prevalence of accelerators and researcher demands necessitate a more general approach which is not tied to specific hardware or requires contortion of algorithms to specific hardware platforms. In this paper we present COMET, a domain-specific programming language and compiler infrastructure for tensor contractions targeting heterogeneous accelerators. We present a system of progressive lowering through multiple layers of abstraction and optimization that achieves up&nbsp;to 1.98\texttimes{} speedup for 30 tensor contractions commonly used in computational chemistry and beyond.},
+booktitle = {Languages and Compilers for Parallel Computing: 33rd International Workshop, LCPC 2020, Virtual Event, October 14-16, 2020, Revised Selected Papers},
+pages = {87–103},
+numpages = {17}
+}
+
+@article{pinski2015sparse,
+  title={Sparse maps—A systematic infrastructure for reduced-scaling electronic structure methods. I. An efficient and simple linear scaling local MP2 method that uses an intermediate basis of pair natural orbitals},
+  author={Pinski, Peter and Riplinger, Christoph and Valeev, Edward F and Neese, Frank},
+  journal={The Journal of chemical physics},
+  volume={143},
+  number={3},
+  year={2015},
+  publisher={AIP Publishing}
+}
+
+#Athena
+@inproceedings{10.1145/3447818.3460355,
+author = {Liu, Jiawen and Li, Dong and Gioiosa, Roberto and Li, Jiajia},
+title = {Athena: high-performance sparse tensor contraction sequence on heterogeneous memory},
+year = {2021},
+isbn = {9781450383356},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3447818.3460355},
+doi = {10.1145/3447818.3460355},
+abstract = {Sparse tensor contraction sequence has been widely employed in many fields, such as chemistry and physics. However, how to efficiently implement the sequence faces multiple challenges, such as redundant computations and memory operations, massive memory consumption, and inefficient utilization of hardware. To address the above challenges, we introduce Athena, a high-performance framework for SpTC sequences. Athena introduces new data structures, leverages emerging Optane-based heterogeneous memory (HM) architecture, and adopts stage parallelism. In particular, Athena introduces shared hash table-represented sparse accumulator to eliminate unnecessary input processing and data migration; Athena uses a novel data-semantic guided dynamic migration solution to make the best use of the Optane-based HM for high performance; Athena also co-runs execution phases with different characteristics to enable high hardware utilization. Evaluating with 12 datasets, we show that Athena brings 327-7362\texttimes{} speedup over the state-of-the-art SpTC algorithm. With the dynamic data placement guided by data semantics, Athena brings performance improvement on Optane-based HM over a state-of-the-art software-based data management solution, a hardware-based data management solution, and PMM-only by 1.58\texttimes{}, 1.82\texttimes{}, and 2.34\texttimes{} respectively. Athena also showcases its effectiveness in quantum chemistry and physics scenarios.},
+booktitle = {Proceedings of the 35th ACM International Conference on Supercomputing},
+pages = {190–202},
+numpages = {13},
+keywords = {heterogeneous memory, multi-core CPU, non-volatile memory, sparse tensor contraction sequences, sparse tensor product},
+location = {Virtual Event, USA},
+series = {ICS '21}
+}
+
+@misc{ensinger2024swifthighperformancesparsetensor,
+      title={Swift: High-Performance Sparse Tensor Contraction for Scientific Applications}, 
+      author={Andrew Ensinger and Gabriel Kulp and Victor Agostinelli and Dennis Lyakhov and Lizhong Chen},
+      year={2024},
+      eprint={2410.10094},
+      archivePrefix={arXiv},
+      primaryClass={cs.DS},
+      url={https://arxiv.org/abs/2410.10094}, 
+}
+
+
+@article{10.1063/5.0004997,
+   title={NWChem: Past, present, and future},
+   volume={152},
+   ISSN={1089-7690},
+   url={http://dx.doi.org/10.1063/5.0004997},
+   DOI={10.1063/5.0004997},
+   number={18},
+   journal={The Journal of Chemical Physics},
+   publisher={AIP Publishing},
+   author={Aprà, E. and Bylaska, E. J. and de Jong, W. A. and Govind, N. and Kowalski, K. and Straatsma, T. P. and Valiev, M. and van Dam, H. J. J. and Alexeev, Y. and Anchell, J. and Anisimov, V. and Aquino, F. W. and Atta-Fynn, R. and Autschbach, J. and Bauman, N. P. and Becca, J. C. and Bernholdt, D. E. and Bhaskaran-Nair, K. and Bogatko, S. and Borowski, P. and Boschen, J. and Brabec, J. and Bruner, A. and Cauët, E. and Chen, Y. and Chuev, G. N. and Cramer, C. J. and Daily, J. and Deegan, M. J. O. and Dunning, T. H. and Dupuis, M. and Dyall, K. G. and Fann, G. I. and Fischer, S. A. and Fonari, A. and Früchtl, H. and Gagliardi, L. and Garza, J. and Gawande, N. and Ghosh, S. and Glaesemann, K. and Götz, A. W. and Hammond, J. and Helms, V. and Hermes, E. D. and Hirao, K. and Hirata, S. and Jacquelin, M. and Jensen, L. and Johnson, B. G. and Jónsson, H. and Kendall, R. A. and Klemm, M. and Kobayashi, R. and Konkov, V. and Krishnamoorthy, S. and Krishnan, M. and Lin, Z. and Lins, R. D. and Littlefield, R. J. and Logsdail, A. J. and Lopata, K. and Ma, W. and Marenich, A. V. and Martin del Campo, J. and Mejia-Rodriguez, D. and Moore, J. E. and Mullin, J. M. and Nakajima, T. and Nascimento, D. R. and Nichols, J. A. and Nichols, P. J. and Nieplocha, J. and Otero-de-la-Roza, A. and Palmer, B. and Panyala, A. and Pirojsirikul, T. and Peng, B. and Peverati, R. and Pittner, J. and Pollack, L. and Richard, R. M. and Sadayappan, P. and Schatz, G. C. and Shelton, W. A. and Silverstein, D. W. and Smith, D. M. A. and Soares, T. A. and Song, D. and Swart, M. and Taylor, H. L. and Thomas, G. S. and Tipparaju, V. and Truhlar, D. G. and Tsemekhman, K. and Van Voorhis, T. and Vázquez-Mayagoitia, Á. and Verma, P. and Villa, O. and Vishnu, A. and Vogiatzis, K. D. and Wang, D. and Weare, J. H. and Williamson, M. J. and Windus, T. L. and Woliński, K. and Wong, A. T. and Wu, Q. and Yang, C. and Yu, Q. and Zacharias, M. and Zhang, Z. and Zhao, Y. and Harrison, R. J.},
+   year={2020},
+   month=may }
+
+
+@article{doi:10.1021/acs.jctc.6b00251,
+author = {K{\"o}ppl, Christoph and Werner, Hans-Joachim},
+title = {Parallel and Low-Order Scaling Implementation of Hartree–Fock Exchange Using Local Density Fitting},
+journal = {Journal of Chemical Theory and Computation},
+volume = {12},
+number = {7},
+pages = {3122-3134},
+year = {2016},
+doi = {10.1021/acs.jctc.6b00251},
+    note ={PMID: 27267488},
+URL = {  
+    https://doi.org/10.1021/acs.jctc.6b00251
+},
+eprint = { 
+    https://doi.org/10.1021/acs.jctc.6b00251
+}
+
+}
+
+
+@article{Fried_2018,
+   title={qTorch: The quantum tensor contraction handler},
+   volume={13},
+   ISSN={1932-6203},
+   url={http://dx.doi.org/10.1371/journal.pone.0208510},
+   DOI={10.1371/journal.pone.0208510},
+   number={12},
+   journal={PLOS ONE},
+   publisher={Public Library of Science (PLoS)},
+   author={Fried, E. Schuyler and Sawaya, Nicolas P. D. and Cao, Yudong and Kivlichan, Ian D. and Romero, Jhonathan and Aspuru-Guzik, Alán},
+   editor={Hen, Itay},
+   year={2018},
+   month=dec, pages={e0208510} }
+
+@book{tewarson1973sparse,
+  title={Sparse Matrices},
+  author={Tewarson, R.P.},
+  isbn={9780126856507},
+  lccn={72088359},
+  series={Mathematics in science and engineering : a series of monographs and textbooks},
+  url={https://books.google.com/books?id=I-FQAAAAMAAJ},
+  year={1973},
+  publisher={Academic Press}
+}
+
+
+@inproceedings{Niu2022,
+  series = {PPoPP ’22},
+  title = {TileSpGEMM: a tiled algorithm for parallel sparse general matrix-matrix multiplication on GPUs},
+  url = {http://dx.doi.org/10.1145/3503221.3508431},
+  DOI = {10.1145/3503221.3508431},
+  booktitle = {Proceedings of the 27th ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming},
+  publisher = {ACM},
+  author = {Niu,  Yuyao and Lu,  Zhengyang and Ji,  Haonan and Song,  Shuhui and Jin,  Zhou and Liu,  Weifeng},
+  year = {2022},
+  month = mar,
+  pages = {90–106},
+  collection = {PPoPP ’22}
+}
+
+
+@phdthesis{10.5555/1925551,
+author = {Buluc, Aydin},
+advisor = {Gilbert, John R.},
+title = {Linear algebraic primitives for parallel computing on large graphs},
+year = {2010},
+isbn = {9781109726589},
+publisher = {University of California at Santa Barbara},
+address = {USA},
+abstract = {This dissertation presents a scalable high-performance software library to be used for graph analysis and data mining. Large combinatorial graphs appear in many applications of high-performance computing, including computational biology, informatics, analytics, web search, dynamical systems, and sparse matrix methods. Graph computations are difficult to parallelize using traditional approaches due to their irregular nature and low operational intensity. Many graph computations, however, contain sufficient coarse grained parallelism for thousands of processors that can be uncovered by using the right primitives. We will describe the Parallel Combinatorial BLAS, which consists of a small but powerful set of linear algebra primitives specifically targeting graph and data mining applications. Given a set of sparse matrix primitives, our approach to developing a library consists of three steps. We (1) design scalable parallel algorithms for the key primitives, analyze their performance, and implement them on distributed memory machines, (2) develop reusable software and evaluate its performance, and finally (3) perform pilot studies on emerging architectures. The technical heart of this thesis is the development of a scalable sparse (generalized) matrix-matrix multiplication algorithm, which we use extensively as a primitive operation for many graph algorithms such as betweenness centrality, graph clustering, graph contraction, and subgraph extraction. We show that 2D algorithms scale better than 1D algorithms for sparse matrix-matrix multiplication. Our 2D algorithms perform well in theory and in practice.},
+note = {AAI3398781}
+}
+
+@inproceedings{Bulu2011,
+  title = {Reduced-Bandwidth Multithreaded Algorithms for Sparse Matrix-Vector Multiplication},
+  url = {http://dx.doi.org/10.1109/IPDPS.2011.73},
+  DOI = {10.1109/ipdps.2011.73},
+  booktitle = {2011 IEEE International Parallel and Distributed Processing Symposium},
+  publisher = {IEEE},
+  author = {Bulu\c{c},  Aydin and Williams,  Samuel and Oliker,  Leonid and Demmel,  James},
+  year = {2011},
+  month = may,
+  pages = {721–733}
+}
+
+@inproceedings{Lu2020,
+  series = {ICPP ’20},
+  title = {Efficient Block Algorithms for Parallel Sparse Triangular Solve},
+  url = {http://dx.doi.org/10.1145/3404397.3404413},
+  DOI = {10.1145/3404397.3404413},
+  booktitle = {49th International Conference on Parallel Processing - ICPP},
+  publisher = {ACM},
+  author = {Lu,  Zhengyang and Niu,  Yuyao and Liu,  Weifeng},
+  year = {2020},
+  month = aug,
+  pages = {1–11},
+  collection = {ICPP ’20}
+}
+
+@article{Wang2018,
+  title = {swSpTRSV: a fast sparse triangular solve with sparse level tile layout on sunway architectures},
+  volume = {53},
+  ISSN = {1558-1160},
+  url = {http://dx.doi.org/10.1145/3200691.3178513},
+  DOI = {10.1145/3200691.3178513},
+  number = {1},
+  journal = {ACM SIGPLAN Notices},
+  publisher = {Association for Computing Machinery (ACM)},
+  author = {Wang,  Xinliang and Liu,  Weifeng and Xue,  Wei and Wu,  Li},
+  year = {2018},
+  month = feb,
+  pages = {338–353}
+}
+
+@inproceedings{Niu2021,
+  title = {TileSpMV: A Tiled Algorithm for Sparse Matrix-Vector Multiplication on GPUs},
+  url = {http://dx.doi.org/10.1109/IPDPS49936.2021.00016},
+  DOI = {10.1109/ipdps49936.2021.00016},
+  booktitle = {2021 IEEE International Parallel and Distributed Processing Symposium (IPDPS)},
+  publisher = {IEEE},
+  author = {Niu,  Yuyao and Lu,  Zhengyang and Dong,  Meichen and Jin,  Zhou and Liu,  Weifeng and Tan,  Guangming},
+  year = {2021},
+  month = may,
+  pages = {68–78}
+}
+
+@inproceedings{Zhang2021,
+  series = {ASPLOS ’21},
+  title = {Gamma: leveraging Gustavson’s algorithm to accelerate sparse matrix multiplication},
+  url = {http://dx.doi.org/10.1145/3445814.3446702},
+  DOI = {10.1145/3445814.3446702},
+  booktitle = {Proceedings of the 26th ACM International Conference on Architectural Support for Programming Languages and Operating Systems},
+  publisher = {ACM},
+  author = {Zhang,  Guowei and Attaluri,  Nithya and Emer,  Joel S. and Sanchez,  Daniel},
+  year = {2021},
+  month = apr,
+  pages = {687–701},
+  collection = {ASPLOS ’21}
+}
+
+@inproceedings{Srivastava2020,
+  title = {MatRaptor: A Sparse-Sparse Matrix Multiplication Accelerator Based on Row-Wise Product},
+  url = {http://dx.doi.org/10.1109/MICRO50266.2020.00068},
+  DOI = {10.1109/micro50266.2020.00068},
+  booktitle = {2020 53rd Annual IEEE/ACM International Symposium on Microarchitecture (MICRO)},
+  publisher = {IEEE},
+  author = {Srivastava,  Nitish and Jin,  Hanchen and Liu,  Jie and Albonesi,  David and Zhang,  Zhiru},
+  year = {2020},
+  month = oct 
+}
+
+@inproceedings{Liu2021,
+  series = {ICS ’21},
+  title = {Athena: high-performance sparse tensor contraction sequence on heterogeneous memory},
+  url = {http://dx.doi.org/10.1145/3447818.3460355},
+  DOI = {10.1145/3447818.3460355},
+  booktitle = {Proceedings of the ACM International Conference on Supercomputing},
+  publisher = {ACM},
+  author = {Liu,  Jiawen and Li,  Dong and Gioiosa,  Roberto and Li,  Jiajia},
+  year = {2021},
+  month = jun,
+  pages = {190–202},
+  collection = {ICS ’21}
+}
+
+@article{Springer2018,
+  title = {Design of a High-Performance GEMM-like Tensor–Tensor Multiplication},
+  volume = {44},
+  ISSN = {1557-7295},
+  url = {http://dx.doi.org/10.1145/3157733},
+  DOI = {10.1145/3157733},
+  number = {3},
+  journal = {ACM Transactions on Mathematical Software},
+  publisher = {Association for Computing Machinery (ACM)},
+  author = {Springer,  Paul and Bientinesi,  Paolo},
+  year = {2018},
+  month = jan,
+  pages = {1–29}
+}

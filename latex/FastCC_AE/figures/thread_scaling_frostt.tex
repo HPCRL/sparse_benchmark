@@ -1,0 +1,25 @@
+\begin{subfigure}{\columnwidth}
+
+\begin{tikzpicture}
+  \centering
+  \begin{axis}[
+    barChart,
+    legend to name=frosttScalingLegend,
+    symbolic x coords={1,2,4,8,16,32,64},
+    enlarge x limits=0.15,
+    ]
+
+    %BETA OuroborosPVA OuroborosCS
+    \addplot[draw=none, OrangeBarStyle, x=threads, y=speedup]   table {data/chicago0_threadscale.txt};
+    %\addplot[draw=none, fill=green!30, x=op, y=perf]   table {data/orkut_CUDA.txt};
+    
+    \addplot[draw=none, BlueBarStyle, x=threads, y=speedup]   table {data/caffeinevvov_threadscale.txt};
+   
+  
+  \legend{Chicago mode 0, caffeine vvov};
+  \end{axis}
+  \end{tikzpicture}
+  %Found it! was the semicolon;
+  \caption{Factor improvement over single thread execution for the FaSTCC kernel from 1 to 64 threads.}
+  \label{fig:chic0_threadscale}
+\end{subfigure}

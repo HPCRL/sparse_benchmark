@@ -1,0 +1,9 @@
+\section{Conclusion}
+\label{sec:conc}
+
+This paper introduced \ourtool, an innovative framework for fast sparse tensor contractions. By employing a novel 2D tiling scheme within the Contraction-Outer (CO) loop order, \ourtool\ achieves significant reductions in memory overhead while enhancing data locality and computational efficiency. The framework's adaptive approach to choosing between dense and sparse accumulators based on a predictive modeling framework enables high performance across diverse sparsity patterns and hardware platforms.
+
+Experimental results show that \ourtool\ outperforms state-of-the-art implementations, delivering substantial improvements in run-time and scalability across a variety of datasets. The contributions of this work, including a systematic analysis of loop orders, first (to our knowledge) implementation of a contraction-outer sparse tensor contraction scheme using a tiling-based implementation, provide a strong foundation for further advancements in sparse tensor computation. Future work could extend these techniques to GPUs and heterogeneous systems, further broadening the applicability of \ourtool\ to emerging computational challenges in fields such as machine learning, quantum chemistry, and physics.
+
+% \input{figures/plot_data}
+% \input{figures/tile_comparison_desktop}

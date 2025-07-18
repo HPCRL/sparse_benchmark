@@ -1,0 +1,44 @@
+\section{Background}
+\label{sec:background}
+%\ps{Section is not flowing well; moving related work to the end of the paper.}
+\subsection{Sparse Tensor Contractions}
+A tensor $T$ of order $n$ is defined by a set of $n$ modes, with mode $M_k = \{ 1, \ldots, N_k\}$ for $1 \le k \le n$. These modes define the index space of the tensor. $T_{i_1,\ldots,i_n}$ denotes the tensor element for a particular point in that index space, with $i_k\in M_k$. 
+%\emph{index space} $D_1 \times \ldots \times D_n$; here $n$ is the tensor mode. Each set $D_i$ in this Cartesian product defines a set of index values $\{1,\ldots,N_i\}$. For a tensor $T$ of mode $n$, $T_{i_1,\ldots,i_n}$ denotes the tensor element for index point $\langle i_1, \ldots, i_n\rangle$. 
+In a \emph{sparse tensor} most $T_{i_1,\ldots,i_n}$ have zero numeric values; thus, standard dense representations of size $\prod_k N_k$ are wasteful. Instead, compact representations such as COO (COOrdinate format \cite{tewarson1973sparse,frostt_page}) or CSF (Compressed Sparse Fiber \cite{smith-csf}) are used. 
+
+Consider two tensors $L$ and $R$. A \emph{tensor contraction} of $L$ and $R$ is a tensor $O$ defined by
+$$O_{l_1,\ldots,l_p,r_1,\ldots,r_q} = \sum_{c_1,\ldots,c_m} L_{l_1,\ldots,l_p,c_1,\ldots,c_m} \ast R_{c_1,\ldots,c_m, r_1,\ldots,r_q}$$
+Here \emph{contraction indices} $c_1,\ldots,c_m$ denote modes that are common to both tensors. These contraction indices are specified as part of the contraction definition. The remaining indices $l_1,\ldots,l_p$ and $r_1,\ldots,r_q$ are referred to as \emph{external indices}.
+
+Clearly, this is a higher-dimensional analog of matrix-matrix multiplication. In fact, the approach we define in this paper assumes that a pre-processing step has been applied to linearize the tuple $l_1,\ldots,l_p$ to a single index $l\in \mathbb{L}$. Similarly, $r_1,\ldots,r_q$ is linearized to an index $r\in \mathbb{R}$ and $c_1,\ldots,c_m$ is linearized to an index $c\in \mathbb{C}$. In our implementation such linearlization is applied as a pre-processing step, and the inverse delinearlization is applied as a post-processing step (both are accounted for in the measured execution time). Thus, the computation we aim to optimize is 
+$$O_{lr} = \sum_c L_{lc} \ast R_{cr}, \ l \in \mathbb{L}, r \in \mathbb{R}, c\in \mathbb{C}$$
+%with ranges $l\in \mathbb{L}$, $r \in \mathbb{R}$, and $c\in \mathbb{C}$. 
+
+Application domains that use tensor contractions (e.g., physics and chemistry) often employ the Einstein notation.
+For the contraction shown above, this notation is $O_{lr} = L_{lc}R_{cr}$. Since the tensor modes corresponding to external and contraction indices are explicitly specified in a tensor contraction, in Einstein notation the relative order of indices 
+%that index a tensor 
+does not have any significance to the semantics of the contraction. All of the following are mathematically equivalent: $O_{lr} = L_{lc}R_{cr}; O_{lr} = L_{lc}R_{rc}$; $O_{rl} = L_{lc}R_{rc}$; $O_{lr} = R_{rc}L_{lc}$. % $O_{rl} = R_{rc}L_{lc}$. 
+
+%-- Define tensor contractions in Einstein notation and relate to matrix-matrix multiplication, explaining linearized indices for external and contraction dimensions.
+%-- Define notation $\mathbb{L}, \mathbb{R}, \mathbb{C}$
+
+\subsection{Sparse Tensor Representations}
+
+A variety of representations for sparse tensors have been considered in prior efforts. We outline the most relevant three representations. 
+
+The COO (Coordinate) format~\cite{tewarson1973sparse} stores a sparse tensor as a list of tuples, each of which 
+describes a nonzero tensor element. For a tensor with $n$ modes, each tuple contains $n+1$ values, with the first $n$ values representing index coordinates
+%corresponding to each of the N dimensions 
+and the final one representing the numeric value of the tensor element. While the COO format is not as compact as other formats, it does support constant-cost insertions of new elements, since a new tuple can simply be appended to the end of the list. Due to its ease of construction COO is commonly used to read in input tensors and write out result tensors, with the tensor being converted from COO to a more optimized format for the targeted computations. Both Sparta \cite{liu2021sparta} and \ourtool\ consume COO input and produce COO output.
+
+The CSF (Compressed Sparse Fiber) format \cite{smith-csf} is based on a chosen outer-to-inner order of the tensor modes. CSF structures a sparse tensor as a tree. The internal nodes of this tree at a depth $k$ represent the indices present in the $k$-th mode, and each leaf in the tree represents one nonzero element in the tensor.
+%At each level of this hierarchical layout, a subset of the indices for the corresponding mode is represented, based on the sparsity structure of the tensor. Efficient iteration over hyper-rectangular tensor slices requires an iteration order consistent with the hierarchical CSF layout.
+
+%Hash tables:
+
+Some approaches (e.g., Sparta \cite{liu2021sparta}) employ hash tables to represent sparse tensors. A hash table
+%are a fundamental data structure that 
+maps a universe of keys to a universe of values. Internally, hash tables store keys by mapping them to an internal slot via a \emph{hash function}, a function that deterministically maps input data to an output universe of a fixed size. Hash tables come in two categories, \textit{open addressing} and \textit{closed addressing} (or \emph{chaining}). Open addressing tables use a hash function to map input keys to positions in a fixed size array: if the position chosen for a key is occupied, the key finds a new position via a probing scheme that determines which positions to probe in the array. Closed addressing schemes hash keys to a bucket data structure which can store any number of keys using chaining (or linked list). The chaining table used in Sparta is one such table, as keys are mapped to an internal linked list during insertion.
+Open addressing hash tables can achieve higher space efficiency and offer better data locality compared to chaining hash tables.
+
+%TODO - discuss robin hood hashing - hash order and whatnot.

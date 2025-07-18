@@ -1,0 +1,11 @@
+tensor speedup
+Chicago-0 5.91
+Chicago-01 3.06
+Chicago-123 1.23
+Vast-5d-01 0.72
+Vast-5d-014 0.86
+Uber-02	3.45
+Uber-123 1.75
+NIPS-2 5.36
+NIPS-23 3.27
+NIPS-013 5.71

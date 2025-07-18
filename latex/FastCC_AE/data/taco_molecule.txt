@@ -1,0 +1,7 @@
+tensor slowdown
+Caffeine-ovov 8.653846154
+Caffeine-vvoo 5.988038278
+Caffeine-vvov 6.564818856
+Guanine-ovov 19.51910828
+Guanine-vvoo 13.87451258
+Guanine-vvov 0

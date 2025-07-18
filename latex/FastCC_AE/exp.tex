@@ -1,0 +1,41 @@
+\section{Figures from the paper evaluation}
+
+
+\input{figures/all_tile_comparison}
+
+% \input{figures/bar_chart_figures}
+% \input{figures/molecules/molecules}
+
+\input{figures/thread_scaling}
+
+\begin{table}[htb]
+\caption{Model output for each experiment. First column is tensor name and contraction mode (in subscript). Time for dense contraction is shown as $\mathit{Time}_D$, similarly for sparse. Model prediction for dense vs sparse accumulator is shown in column (D/S).}
+{\small
+\begin{tabular}{|l|r|r|r|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Tensor}}} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{$\mathit{p_L}$(\%)}}} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{$\mathit{p_R}$(\%)}}} & \multicolumn{1}{l|}{\multirow{2}{*}{\textbf{$\mathit{E_{\mathit{nnz}}(T^2)}$}}} & \multirow{2}{*}{\textbf{$\mathit{Time}_D$}} & \multirow{2}{*}{\textbf{$\mathit{Time}_S$}} & \multirow{2}{*}{\textbf{D/S}} \\
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{l|}{} &  &  &  \\ \hline
+\textbf{chic$_0$} & 1.46 & 1.46 & 4.79E+04 & 9.21 & 9.36 & D \\ \hline
+\textbf{chic$_{01}$} & 1.46 & 1.46 & 65536 & 0.33 & 0.54 & D \\ \hline
+\textbf{chic$_{123}$} & 1.46 & 1.46 & 6.55E+04 & 1.23 & 2.06 & D \\ \hline
+\textbf{uber$_{02}$} & 0.04 & 0.04 & 2.00E+03 & 0.55 & 0.73 & D \\ \hline
+\textbf{uber$_{123}$} & 0.04 & 0.04 & 6.55E+04 & 0.34 & 0.38 & D \\ \hline
+\textbf{vast$_{01}$} & 7.78E-06 & 7.78E-06 & 7.38E+00 & 4.23 & 4.26 & D \\ \hline
+\textbf{vast$_{014}$} & 7.78E-06 & 7.78E-06 & 6.54E+02 & 4.36 & 4.45 & D \\ \hline
+\textbf{NIPS$_2$} & 1.83E-04 & 1.83E-04 & 3.08E-03 & DNF & 2.44 & S \\ \hline
+\textbf{NIPS$_{23}$} & 1.83E-04 & 1.83E-04 & 5.24E-02 & 0.73 & 0.259 & S \\ \hline
+\textbf{NIPS$_{013}$} & 1.83E-04 & 1.83E-04 & 2.65E+01 & 1.44 & 1.48 & D \\ \hline
+\textbf{G-ovov} & 0.63 & 0.63 & 1.98E+04 & 0.315 & 0.566 & D \\ \hline
+\textbf{G-vvoo} & 18.36 & 0.17 & 6.16E+04 & 11.28 & 12.12 & D \\ \hline
+\textbf{G-vvov} & 18.36 & 0.63 & 6.55E+04 & 36.09 & 85.91 & D \\ \hline
+\textbf{C-ovov} & 3.66 & 3.66 & 6.50E+04 & 0.219 & 0.566 & D \\ \hline
+\textbf{C-vvoo} & 41.90 & 1.03 & 6.55E+04 & 3.79 & 4.305 & D \\ \hline
+\textbf{C-vvov} & 41.90 & 3.66 & 65536 & 16.03 & 107.4 & D \\ \hline
+\end{tabular}
+}
+\label{tab:prob_frostt}
+\end{table}
+
+\input{figures/scatter_figure}
+
+\input{figures/taco_figure}

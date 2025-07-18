@@ -1,0 +1,24 @@
+\begin{subfigure}{\columnwidth}
+
+\begin{tikzpicture}
+  \centering
+  \begin{axis}[
+    barChartSmall,
+    symbolic x coords={Chicago-0, Chicago-01, Chicago-123, Vast-5d-01, Vast-5d-014, Uber-02, Uber-123, NIPS-2, NIPS-23,NIPS-013},
+    enlarge x limits=0.15,
+    ]
+
+    %BETA OuroborosPVA OuroborosCS
+    \addplot[draw=none, OrangeBarStyle, x=tensor, y=speedup]   table {data/speedup_best_server.txt};
+    %\addplot[draw=none, fill=green!30, x=op, y=perf]   table {data/orkut_CUDA.txt};
+    
+    \addplot[draw=none, BlueBarStyle, x=tensor, y=speedup]   table {data/speedup_model_server.txt};
+
+    
+    %\legend{Speedup: best tile size, Speedup: model-based size};
+  \end{axis}
+  \end{tikzpicture}
+  %Found it! was the semicolon;
+  \caption{FROSTT comparison on server machine with 64 threads}
+  \label{fig:ServerpBarFigure}
+\end{subfigure}

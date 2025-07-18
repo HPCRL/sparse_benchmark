@@ -1,4 +1,5 @@
 #include "fastcc/contract.hpp"
+#include <unistd.h>
 #include "fastcc/read.hpp"
 #include <chrono>
 #include <iostream>
@@ -181,26 +182,46 @@ void run_frostt_experiments(std::vector<int> tile_sizes, std::ostream& out, std:
         std::cout<<"Time taken for Uber-123: " << time_taken << " seconds at tile size " << s << std::endl;
         minimum_times[9] = time_taken != -1.0 ? std::min(minimum_times[9], time_taken) : minimum_times[9];
   }
+
+  long l3_size_bytes = sysconf(_SC_LEVEL3_CACHE_SIZE);
+  std::cout << "Going to run model, cache size is " << l3_size_bytes
+            << " bytes, number of threads being used is "
+            << std::thread::hardware_concurrency() << std::endl;
+
+  int dense_tile_size = int(std::sqrt(
+      l3_size_bytes / (sizeof(double) * std::thread::hardware_concurrency())));
+  std::cout << " Dense tile size for model: " << dense_tile_size << std::endl;
+
+  double model_times[10] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+  model_times[2] = make_a_run(nips, "NIPS-013", CoOrdinate({0, 1, 3}), dense_tile_size, true);
+  model_times[3] = make_a_run(chicago, "Chicago-0", CoOrdinate({0}), dense_tile_size, true);
+  model_times[4] = make_a_run(chicago, "Chicago-01", CoOrdinate({0, 1}), dense_tile_size, true);
+  model_times[5] = make_a_run(chicago, "Chicago-123", CoOrdinate({1, 2, 3}), dense_tile_size, true);
+  model_times[6] = make_a_run(vast, "Vast-5d-01", CoOrdinate({0, 1}), dense_tile_size, true);
+  model_times[7] = make_a_run(vast, "Vast-5d-014", CoOrdinate({0, 1, 4}), dense_tile_size, true);
+  model_times[8] = make_a_run(uber, "Uber-02", CoOrdinate({0, 2}), dense_tile_size, true);
+  model_times[9] = make_a_run(uber, "Uber-123", CoOrdinate({1, 2, 3}), dense_tile_size, true);
+
   out << "Chicago-0"
-      << "," << minimum_times[3] << std::endl;
+      << "," << minimum_times[3] << "," << model_times[3] << std::endl;
   out << "Chicago-01"
-      << "," << minimum_times[4] << std::endl;
+      << "," << minimum_times[4] << "," << model_times[4] << std::endl;
   out << "Chicago-123"
-      << "," << minimum_times[5] << std::endl;
+      << "," << minimum_times[5] << "," << model_times[5] << std::endl;
   out << "Vast-5d-01"
-      << "," << minimum_times[6] << std::endl;
+      << "," << minimum_times[6] << "," << model_times[6] << std::endl;
   out << "Vast-5d-014"
-      << "," << minimum_times[7] << std::endl;
+      << "," << minimum_times[7] << "," << model_times[7] << std::endl;
   out << "Uber-02"
-      << "," << minimum_times[8] << std::endl;
+      << "," << minimum_times[8] << "," << model_times[8] << std::endl;
   out << "Uber-123"
-      << "," << minimum_times[9] << std::endl;
+      << "," << minimum_times[9] << "," << model_times[9] << std::endl;
   out << "NIPS-2"
-      << "," << minimum_times[0] << std::endl;
+      << "," << minimum_times[0] << "," << model_times[0] << std::endl;
   out << "NIPS-23"
-      << "," << minimum_times[1] << std::endl;
+      << "," << minimum_times[1] << "," << model_times[1] << std::endl;
   out << "NIPS-013"
-      << "," << minimum_times[2] << std::endl;
+      << "," << minimum_times[2] << "," << model_times[2] << std::endl;
 }
 
 void run_chemistry_experiments(std::vector<int> tile_sizes, std::ostream &out,
@@ -270,18 +291,41 @@ void run_chemistry_experiments(std::vector<int> tile_sizes, std::ostream &out,
                                : minimum_times[5];
   }
 
+  long l3_size_bytes = sysconf(_SC_LEVEL3_CACHE_SIZE);
+  std::cout << "Going to run model, cache size is " << l3_size_bytes
+            << " bytes, number of threads being used is "
+            << std::thread::hardware_concurrency() << std::endl;
+
+  int dense_tile_size = int(std::sqrt(
+      l3_size_bytes / (sizeof(double) * std::thread::hardware_concurrency())));
+  std::cout << " Dense tile size for model: " << dense_tile_size << std::endl;
+
+  double model_times[6] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+  model_times[0] = run_a_times_b(tevv_caffeine, teoo_caffeine,
+                                   CoOrdinate({2}), dense_tile_size, true);
+  model_times[1] = run_a_times_b(teov_caffeine, teov_caffeine,
+                                   CoOrdinate({2}), dense_tile_size, true);
+  model_times[2] = run_a_times_b(tevv_caffeine, teov_caffeine,
+                                   CoOrdinate({2}), dense_tile_size, true);
+  model_times[3] = run_a_times_b(tevv_guanine, teoo_guanine,
+                                   CoOrdinate({2}), dense_tile_size, true);
+  model_times[4] = run_a_times_b(teov_guanine, teov_guanine,
+                                   CoOrdinate({2}), dense_tile_size, true);
+  model_times[5] = run_a_times_b(tevv_guanine, teov_guanine,
+                                   CoOrdinate({2}), dense_tile_size, true);
+
   out << "caffeine-vvoo"
-      << "," << minimum_times[0] << std::endl;
+      << "," << minimum_times[0] << "," << model_times[0] << std::endl;
   out << "caffeine-ovov"
-      << "," << minimum_times[1] << std::endl;
+      << "," << minimum_times[1] << "," << model_times[1] << std::endl;
   out << "caffeine-vvov"
-      << "," << minimum_times[2] << std::endl;
+      << "," << minimum_times[2] << "," << model_times[2] << std::endl;
   out << "guanine-vvoo"
-      << "," << minimum_times[3] << std::endl;
+      << "," << minimum_times[3] << "," << model_times[3] << std::endl;
   out << "guanine-ovov"
-      << "," << minimum_times[4] << std::endl;
+      << "," << minimum_times[4] << "," << model_times[4] << std::endl;
   out << "guanine-vvov"
-      << "," << minimum_times[5] << std::endl;
+      << "," << minimum_times[5] << "," << model_times[5] << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -289,7 +333,7 @@ int main(int argc, char** argv) {
         std::cerr << "Usage: " << argv[0] << " <<path to folder containing frostt tensors>> <<path to folder containing caffeine tensors>> <<path to folder containing guanine tensors>>" << std::endl;
         return 1;
     }
-    std::vector<int> grid_sizes = {128, 256, 512};
+    std::vector<int> grid_sizes = {512};
     std::string frostt_dir = argv[1], caffeine_dir = argv[2], guanine_dir = argv[3];
     std::ofstream results_chem, results_frostt;
     results_frostt.open("frostt_times.csv");

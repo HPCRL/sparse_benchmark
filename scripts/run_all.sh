@@ -8,3 +8,4 @@ git submodule update
 ./scripts/run_sparta_parallel.sh | tee results/sparta_parallel.txt
 ./scripts/prep_scatter.sh
 ./scripts/prep_csv.sh
+./scripts/build_pdf.sh

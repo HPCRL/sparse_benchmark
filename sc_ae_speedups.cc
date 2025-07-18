@@ -188,11 +188,24 @@ void run_frostt_experiments(std::vector<int> tile_sizes, std::ostream& out, std:
             << " bytes, number of threads being used is "
             << std::thread::hardware_concurrency() << std::endl;
 
+  auto get_sparse_size = [](double density) {
+    long l3_size_bytes = sysconf(_SC_LEVEL3_CACHE_SIZE);
+    return int(
+        std::sqrt(l3_size_bytes /
+                  (17.7 * std::thread::hardware_concurrency() * density)));
+  };
+
   int dense_tile_size = int(std::sqrt(
       l3_size_bytes / (sizeof(double) * std::thread::hardware_concurrency())));
+  int sparse_size_0 = get_sparse_size(4.6e-8);
+  int sparse_size_1 = get_sparse_size(7.9e-7);
   std::cout << " Dense tile size for model: " << dense_tile_size << std::endl;
+  std::cout << " Sparse tile size for model nips2: " << sparse_size_0 << std::endl;
+  std::cout << " Sparse tile size for model nips23: " << sparse_size_1 << std::endl;
 
   double model_times[10] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+  model_times[0] = make_a_run(nips, "NIPS-2", CoOrdinate({2}), sparse_size_0, false);
+  model_times[1] = make_a_run(nips, "NIPS-23", CoOrdinate({2, 3}), sparse_size_1, false);
   model_times[2] = make_a_run(nips, "NIPS-013", CoOrdinate({0, 1, 3}), dense_tile_size, true);
   model_times[3] = make_a_run(chicago, "Chicago-0", CoOrdinate({0}), dense_tile_size, true);
   model_times[4] = make_a_run(chicago, "Chicago-01", CoOrdinate({0, 1}), dense_tile_size, true);
@@ -333,7 +346,7 @@ int main(int argc, char** argv) {
         std::cerr << "Usage: " << argv[0] << " <<path to folder containing frostt tensors>> <<path to folder containing caffeine tensors>> <<path to folder containing guanine tensors>>" << std::endl;
         return 1;
     }
-    std::vector<int> grid_sizes = {512};
+    std::vector<int> grid_sizes = {64, 128, 256, 512, 1024, 2048};
     std::string frostt_dir = argv[1], caffeine_dir = argv[2], guanine_dir = argv[3];
     std::ofstream results_chem, results_frostt;
     results_frostt.open("frostt_times.csv");

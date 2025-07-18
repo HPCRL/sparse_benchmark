@@ -7,7 +7,9 @@ export SPARTA_DIR=$CURRENT_DIR/HiParTI
 
 echo "SPARTA DIR is $SPARTA_DIR"
 
-NUM_THREADS=$(nproc)
+NUM_THREADS=$(( $(nproc) / 2 ))
+
+echo "N_THREADS used are $NUM_THREADS"
 
 echo "Tensor: Chicago-0"
 numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/frostt/chicago-crime-comm.tns -Y $TENSOR_DIR/frostt/chicago-crime-comm.tns -m 1 -x 0 -y 0 -t $NUM_THREADS

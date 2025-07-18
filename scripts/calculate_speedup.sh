@@ -1,5 +1,5 @@
 #!/bin/bash
-#!/bin/bash
+
 fileA="$1"
 fileB="$2"
 
@@ -11,11 +11,13 @@ fi
 # Output header
 echo "tensor, speedup"
 
-# Skip headers and process both files
-join -t, -1 1 -2 1 <(tail -n +2 "$fileA" | sort) <(tail -n +2 "$fileB" | sort) | \
-while IFS=, read -r tensor timeA timeB; do
-    if [[ -n "$tensor" && -n "$timeA" && -n "$timeB" ]]; then
+# Read both files, skipping headers, line by line
+paste -d, <(tail -n +2 "$fileA") <(tail -n +2 "$fileB") | \
+while IFS=, read -r tensorA timeA tensorB timeB; do
+    if [[ "$tensorA" == "$tensorB" && -n "$timeA" && -n "$timeB" ]]; then
         speedup=$(awk -v a="$timeA" -v b="$timeB" 'BEGIN { printf "%.6f", a / b }')
-        echo "$tensor, $speedup"
+        echo "$tensorA, $speedup"
+    else
+        echo "Mismatch or missing data: $tensorA vs $tensorB" >&2
     fi
 done

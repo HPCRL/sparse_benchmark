@@ -47,19 +47,19 @@ numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/frostt/nips.tns
 
 #caffeine
 
-echo "Tensor: caffeine-ovov"
-numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEov.tns -Y $TENSOR_DIR/caffeine/TEov.tns -m 1 -x 2 -y 2 -t 1
-
 echo "Tensor: caffeine-vvoo"
 numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEvv.tns -Y $TENSOR_DIR/caffeine/TEoo.tns -m 1 -x 2 -y 2 -t 1
+
+echo "Tensor: caffeine-ovov"
+numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEov.tns -Y $TENSOR_DIR/caffeine/TEov.tns -m 1 -x 2 -y 2 -t 1
 
 echo "Tensor: caffeine-vvov"
 numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEvv.tns -Y $TENSOR_DIR/caffeine/TEov.tns -m 1 -x 2 -y 2 -t 1
 
 #guanine
-echo "Tensor: guanine-ovov"
-numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEov.tns -Y $TENSOR_DIR/guanine/TEov.tns -m 1 -x 2 -y 2 -t 1
 echo "Tensor: guanine-vvoo"
 numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEvv.tns -Y $TENSOR_DIR/guanine/TEoo.tns -m 1 -x 2 -y 2 -t 1
+echo "Tensor: guanine-ovov"
+numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEov.tns -Y $TENSOR_DIR/guanine/TEov.tns -m 1 -x 2 -y 2 -t 1
 echo "Tensor: guanine-vvov"
 numactl -N 1 -m 1 $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEvv.tns -Y $TENSOR_DIR/guanine/TEov.tns -m 1 -x 2 -y 2 -t 1

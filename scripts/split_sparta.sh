@@ -16,7 +16,7 @@ echo "tensor, time" >> "$before_file"
 echo "tensor, time" >> "$after_file"
 
 while IFS= read -r line; do
-    if [[ $found -eq 0 && $line == *"caffeine-ovov"* ]]; then
+    if [[ $found -eq 0 && $line == *"caffeine-vvoo"* ]]; then
         found=1
     fi
 

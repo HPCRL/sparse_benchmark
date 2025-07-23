@@ -1,6 +1,8 @@
 #!/bin/bash
 git submodule init
 git submodule update
+
+mkdir results
 ./scripts/download_tensors.sh
 ./scripts/build_sparta.sh
 ./scripts/build_fastcc.sh

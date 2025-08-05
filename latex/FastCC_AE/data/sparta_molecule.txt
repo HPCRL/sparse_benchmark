@@ -1,7 +1,0 @@
-tensor slowdown
-Caffeine-ovov 2.69
-Caffeine-vvoo 3.916
-Caffeine-vvov 2.78
-Guanine-ovov 2.51
-Guanine-vvoo 3.18
-Guanine-vvov 2.688

@@ -4,14 +4,14 @@
   \centering
   \begin{axis}[
     tacoBarChart,
-    symbolic x coords={Caffeine-ovov, Caffeine-vvoo, Caffeine-vvov, Guanine-ovov, Guanine-vvoo, Guanine-vvov},
-    xticklabels={Caffeine-ovov, Caffeine-vvoo, Caffeine-vvov, Guanine-ovov, Guanine-vvoo, Guanine-vvov},
+    symbolic x coords={caffeine-ovov, caffeine-vvoo, caffeine-vvov, guanine-ovov, guanine-vvoo, guanine-vvov},
+    xticklabels={caffeine-ovov, caffeine-vvoo, caffeine-vvov, guanine-ovov, guanine-vvoo, guanine-vvov},
     enlarge x limits=0.15,
     ]
 
     %BETA OuroborosPVA OuroborosCS
-    \addplot[draw=none, BlueBarStyle, x=tensor, y=slowdown]   table {data/taco_molecule.txt};
-    \addplot[draw=none, OrangeBarStyle, x=tensor, y=slowdown]   table {data/sparta_molecule.txt};
+    \addplot[draw=none, BlueBarStyle, x=tensor, y=slowdown]   table[col sep=comma] {data/taco_molecule.txt};
+    \addplot[draw=none, OrangeBarStyle, x=tensor, y=slowdown]   table[col sep=comma] {data/sparta_molecule.txt};
     %\addplot[draw=none, fill=green!30, x=op, y=perf]   table {data/orkut_CUDA.txt};
     
    

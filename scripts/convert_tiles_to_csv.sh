@@ -3,7 +3,7 @@
 input="${1:-/dev/stdin}"  # Read from file or stdin
 
 # Use awk to do all parsing and formatting
-awk -F',' '
+gawk -F',' '
 BEGIN {
     OFS = ",";
 }
@@ -30,7 +30,22 @@ NR > 1 {
 END {
     # Sort tensor names for column headers
     n = asorti(tensors, tensor_list);
-    m = asorti(tiles, tile_list);
+    
+    # Sort tiles numerically
+    m = 0;
+    for (tile in tiles) {
+        tile_list[++m] = tile;
+    }
+    # Simple numeric sort for tiles
+    for (i = 1; i < m; i++) {
+        for (j = i + 1; j <= m; j++) {
+            if (tile_list[i] + 0 > tile_list[j] + 0) {
+                temp = tile_list[i];
+                tile_list[i] = tile_list[j];
+                tile_list[j] = temp;
+            }
+        }
+    }
 
     # Print header
     printf "tile";

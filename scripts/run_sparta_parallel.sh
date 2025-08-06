@@ -41,18 +41,18 @@ numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $T
 
 #caffeine
 echo "Tensor: caffeine-vvoo"
-numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEvv.tns -Y $TENSOR_DIR/caffeine/TEoo.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
+numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEoo.tns -Y $TENSOR_DIR/caffeine/TEvv.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
 
 echo "Tensor: caffeine-ovov"
 numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEov.tns -Y $TENSOR_DIR/caffeine/TEov.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
 
 echo "Tensor: caffeine-vvov"
-numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEvv.tns -Y $TENSOR_DIR/caffeine/TEov.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
+numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/caffeine/TEov.tns -Y $TENSOR_DIR/caffeine/TEvv.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
 
 #guanine
 echo "Tensor: guanine-vvoo"
-numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEvv.tns -Y $TENSOR_DIR/guanine/TEoo.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
+numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEoo.tns -Y $TENSOR_DIR/guanine/TEvv.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
 echo "Tensor: guanine-ovov"
 numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEov.tns -Y $TENSOR_DIR/guanine/TEov.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
 echo "Tensor: guanine-vvov"
-numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEvv.tns -Y $TENSOR_DIR/guanine/TEov.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
+numactl --interleave=all --physcpubind=all $SPARTA_DIR/build/benchmark/ttt -X $TENSOR_DIR/guanine/TEov.tns -Y $TENSOR_DIR/guanine/TEvv.tns -m 1 -x 2 -y 2 -t $NUM_THREADS
